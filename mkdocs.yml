@@ -1,8 +1,8 @@
 site_name: Template de Entrega
 site_author: Sandmann, H.
-site_url: https://hsandmann.github.io/documentation.template
-repo_url: https://github.com/hsandmann/documentation.template
-repo_name: github/documentation.template
+site_url: https://pedrocivita.github.io
+repo_url: https://github.com/pedrocivita/pedrocivita.github.io
+repo_name: github/pedrocivita.github.io
 
 theme:
   name: material
@@ -77,8 +77,8 @@ markdown_extensions:
       line_spans: __span
       pygments_lang_class: true
   - pymdownx.emoji:
-      emoji_index: !!python/name:material.extensions.emoji.twemoji 
-      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+      emoji_index: !!python/name:pymdownx.emoji.twemoji
+      emoji_generator: !!python/name:pymdownx.emoji.to_svg
   - pymdownx.inlinehilite
   - pymdownx.snippets:
       url_download: true
@@ -86,11 +86,8 @@ markdown_extensions:
       custom_fences:
         - name: mermaid
           class: mermaid
-          format: !!python/name:pymdownx.superfences.fence_code_format
         - name: python
           class: python
-          validator: !!python/name:markdown_exec.validator
-          format: !!python/name:markdown_exec.formatter
   - pymdownx.tabbed:
       alternate_style: true
   - pymdownx.tasklist:
