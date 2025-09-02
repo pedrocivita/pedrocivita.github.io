@@ -1,4 +1,4 @@
-site_name: Artificial Neural Networks and Deep Learning
+site_name: Artificial Neural Networks and Deep Learning - pedrotpc
 site_author: Pedro Toledo Piza Civita
 site_url: https://pedrocivita.github.io
 repo_url: https://github.com/pedrocivita/pedrocivita.github.io
@@ -148,36 +148,14 @@ extra_css:
 
 nav:
   - Home: index.md
-  - Ementa:
-      - Concepts: classes/1-concepts.md
-      - Data: classes/2-data.md
-      - Preprocessing: classes/3-preprocessing.md
-      - Neural Networks: classes/4-neural-networks.md
-      - Perceptron: classes/5-perceptron.md
-      - Multi-Layer Perceptron: classes/6-mlp.md
-      - Optimization:
-          - Gradient Descent: classes/7-optimization/7.1-gd.md
-          - SGD: classes/7-optimization/7.2-sgd.md
-          - Momentum: classes/7-optimization/7.3-momentum.md
-          - Adam Optimizer: classes/7-optimization/7.4-adam.md
-          - Comparison: classes/7-optimization/7.5-comparison.md
-      - Regularization: classes/8-regularization.md
-      - Metrics and Evaluation: classes/9-metrics.md
-      - Deep Learning: classes/10-deep-learning.md
-      - Convolutional: classes/11-convolutional.md
-      - Generative Models: classes/12-generative.md
-  - References:
-      - Terms and Conditions: versions/terms.md
-  - Versions:
-      - 2025.2:
-          - Presentation: presentation/index.md
-          - Exercises:
-              - "1. Data": exercises/1/index.md
-              - "2. Perceptron": exercises/2/index.md
-              - "3. MLP": exercises/3/index.md
-              - "4. Metrics": exercises/4/index.md
-          - Projects:
-              - "1. Classification": projects/1/index.md
-              - "2. Regression": projects/2/index.md
-              - "3. Generative Models": projects/3/index.md
-  - This documentation: thisdocumentation/main.md
+
+  - Exercises:
+      - "1. Data": exercises/1/index.md
+      - "2. Perceptron": exercises/2/index.md
+      - "3. MLP": exercises/3/index.md
+      - "4. Metrics": exercises/4/index.md
+
+  - Projects:
+      - "1. Classification": projects/1/index.md
+      - "2. Regression": projects/2/index.md
+      - "3. Generative Models": projects/3/index.md
