@@ -1,19 +1,14 @@
-# Template de Entrega
+# Artificial Neural Networks and Deep Learning
 
 
 ???+ info inline end "Edição"
 
-    2025.1
+    2025.2
 
 
-## Grupo/Kit X
+## Pedro Toledo Piza Civita
 
-1. João da Silva
-1. Pedro de Souza
-1. Maria Oliveira
-1. Grupo K
-    - João da Silva
-    - Pedro de Souza
+- pedrotpc@al.insper.edu.br
 
 
 
@@ -24,11 +19,11 @@
 
 ## Entregas
 
-- [x] Roteiro 1 - Data 23/02/2025
-- [ ] Roteiro 2
-- [ ] Roteiro 3
-- [ ] Roteiro 4
-- [ ] Projeto
+- [x] Exercício 1 - Data 05/09/2025
+- [ ] Exercício 2 - Data 12/09/2025
+- [ ] Exercício 3 - Data 19/09/2025
+- [ ] Exercício 4 - Data 26/09/2025
+- [ ] Projetos
 
 ## Diagramas
 
