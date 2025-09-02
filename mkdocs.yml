@@ -1,4 +1,4 @@
-site_name: Artificial Neural Networks and Deep Learning
+site_name: Artificial Neural Networks and Deep Learning - pedrotpc
 site_author: Pedro Toledo Piza Civita
 site_url: https://pedrocivita.github.io
 repo_url: https://github.com/pedrocivita/pedrocivita.github.io
@@ -158,13 +158,14 @@ nav:
   - Home: index.md
   - Presentation: presentation/index.md
   - Exercises:
-      - "1. Data (resumo)": exercises/1-Data/resposta.md
-      - "1. Data (notebook)": exercises/1-Data/resposta.ipynb
-      - "2. Perceptron": exercises/2-Perceptron/resposta.md
-      - "3. MLP": exercises/3-MLP/resposta.md
-      - "4. Metrics": exercises/4-Metrics/resposta.md
+      - "1. Data (página)": exercises/1/index.md
+      - "1. Data (notebook)": exercises/1/ex1_pedrotpc.ipynb
+      - "1. Data (texto)": exercises/1/main.md
+      - "2": exercises/2/index.md
+      - "3": exercises/3/index.md
+      - "4": exercises/4/index.md
   - Projects:
-      - "1. Classification": projects/1-Classification/resposta.md
-      - "2. Regression": projects/2-Regression/resposta.md
-      - "3. Generative Models": projects/3-GenerativeModels/resposta.md
+      - "1": projects/1/index.md
+      - "2": projects/2/index.md
+      - "3": projects/3/index.md
   - This documentation: thisdocumentation/main.md

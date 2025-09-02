@@ -3,3 +3,7 @@ env/
 .cache/
 .vscode/
 target/
+
+# Kaggle / dados locais
+*.csv
+docs/exercises/1/spaceship-titanic/
