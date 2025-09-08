@@ -12,10 +12,6 @@
 
 
 
-!!! tip "Instruções"
-
-    Vocês devem utilizar este template como um bloco de notas para registrar o que foi feito e o que falta fazer. Vocês devem adicionar as informações necessárias.
-    O template deve ser editado e atualizado a cada entrega, registrando assim a data de entrega e o que foi feito até o momento via Git.
 
 ## Entregas
 
@@ -25,7 +21,7 @@
 - [ ] Exercício 4 - Data 26/09/2025
 - [ ] Projetos
 
-## Diagramas
+<!-- ## Diagramas
 
 Use o [Mermaid](https://mermaid.js.org/intro/){:target='_blank'} para criar os diagramas de documentação.
 
@@ -87,7 +83,7 @@ flowchart TD
 
 Lorem ipsum dolor sit amet
 
-<iframe width="100%" height="470" src="https://www.youtube.com/embed/3574AYQml8w" allowfullscreen></iframe>
+<iframe width="100%" height="470" src="https://www.youtube.com/embed/3574AYQml8w" allowfullscreen></iframe> -->
 
 
 ## Referências
