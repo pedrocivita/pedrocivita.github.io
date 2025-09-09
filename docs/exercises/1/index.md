@@ -27,30 +27,26 @@ A análise visual sugere que uma fronteira linear é insuficiente para separar t
 Uma rede neural com ativação não linear (por exemplo, `tanh`) poderia aprender curvas de decisão que separam melhor essas regiões.
 
 
-```python
 
+```python
 import numpy as np
 import matplotlib.pyplot as plt
 
-# Fixar semente para reprodutibilidade
+# Fixar semente
 np.random.seed(42)
 
 # Parâmetros
-means = np.array([
-    [2, 3],
-    [5, 6],
-    [8, 1],
-    [15, 4],
-], dtype=float)
-stds = np.array([
-    [0.8, 2.5],
-    [1.2, 1.9],
-    [0.9, 0.9],
-    [0.5, 2.0],
-], dtype=float)
+means = np.array([[2, 3],
+                  [5, 6],
+                  [8, 1],
+                  [15, 4]], dtype=float)
+stds = np.array([[0.8, 2.5],
+                 [1.2, 1.9],
+                 [0.9, 0.9],
+                 [0.5, 2.0]], dtype=float)
 n_per_class = 100
 
-# Geração dos dados
+# Dados
 X_list, y_list = [], []
 for c in range(4):
     Xc = np.random.randn(n_per_class, 2) * stds[c] + means[c]
@@ -60,25 +56,37 @@ for c in range(4):
 X = np.vstack(X_list)
 y = np.concatenate(y_list)
 
-# Plot
-plt.figure(figsize=(6, 6))
+# Plot dos pontos
+plt.figure(figsize=(7, 7))
 colors = ['red', 'green', 'blue', 'orange']
 labels = ['Classe 0', 'Classe 1', 'Classe 2', 'Classe 3']
 for c in range(4):
-    mask = (y == c)
-    plt.scatter(X[mask, 0], X[mask, 1], s=15, color=colors[c], label=labels[c], alpha=0.8)
-plt.title("Exercício 1: classes gaussianas em 2D")
-plt.xlabel("x1")
-plt.ylabel("x2")
-plt.legend()
-plt.grid(True)
+    m = y == c
+    plt.scatter(X[m, 0], X[m, 1], s=15, color=colors[c], label=labels[c], alpha=0.8)
+
+# Divisões por clusters: fronteiras de Voronoi em torno dos centros
+x_min, x_max = X[:, 0].min() - 1, X[:, 0].max() + 1
+y_min, y_max = X[:, 1].min() - 1, X[:, 1].max() + 1
+xx, yy = np.meshgrid(np.linspace(x_min, x_max, 500),
+                     np.linspace(y_min, y_max, 500))
+grid = np.c_[xx.ravel(), yy.ravel()]
+
+# Distância euclidiana até cada centro
+dists = np.stack([np.linalg.norm(grid - mu, axis=1) for mu in means], axis=0)  # (k, N)
+labels_grid = np.argmin(dists, axis=0).reshape(xx.shape)
+
+# Contornos nos meios inteiros separam rótulos inteiros 0,1,2,3
+cs = plt.contour(xx, yy, labels_grid, levels=[0.5, 1.5, 2.5], colors='k', linestyles='--', linewidths=1.5)
+cs.collections[0].set_label("Divisões por clusters")
+
+plt.title("Exercício 1: classes gaussianas em 2D com divisões por clusters")
+plt.xlabel("x1"); plt.ylabel("x2"); plt.grid(True); plt.legend()
 plt.show()
 
 ```
-
-
     
-![png](index_files/index_2_0.png)
+    
+![png](index_files/index_2_1.png)
     
 
 
