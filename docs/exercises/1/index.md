@@ -1,6 +1,7 @@
 # Relatório de Exercícios – Redes Neurais e Deep Learning
 
-**Autor:** Pedro Toledo Piza Civita**Data:** 27 de agosto de 2025
+**Autor:** Pedro Toledo Piza Civita
+**Data:** 27 de agosto de 2025
 
 Este notebook apresenta a resolução dos exercícios de preparação e análise de dados para redes neurais. 
 
@@ -24,7 +25,6 @@ Cada classe possui média e desvios padrão especificados no enunciado:
 O gráfico de dispersão abaixo mostra as quatro classes em 2D, com cores distintas.  
 A análise visual sugere que uma fronteira linear é insuficiente para separar todas as classes, pois há sobreposição entre elas.  
 Uma rede neural com ativação não linear (por exemplo, `tanh`) poderia aprender curvas de decisão que separam melhor essas regiões.
-
 
 
 ```python
