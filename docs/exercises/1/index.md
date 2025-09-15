@@ -1,7 +1,8 @@
 # Relatório de Exercícios – Redes Neurais e Deep Learning
 
-**Autor:** Pedro Toledo Piza Civita
-**Data:** 27 de agosto de 2025
+**Autor:** Pedro Toledo Piza Civita 
+
+**Data:** 27 de agosto de 2025 
 
 Este notebook apresenta a resolução dos exercícios de preparação e análise de dados para redes neurais. 
 
