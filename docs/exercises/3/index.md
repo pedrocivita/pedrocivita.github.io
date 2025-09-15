@@ -1,152 +1,171 @@
-# Atividade de MLP
-
-Nesta atividade, exploramos redes neurais multicamadas (MLPs) usando apenas NumPy. O objetivo é compreender o funcionamento de um perceptron multicamadas através de cálculos manuais e depois construir redes neurais simples para classificar dados sintéticos. A implementação não usa bibliotecas de aprendizado de máquina de alto nível. Todas as operações de ativação, perda e gradiente são codificadas diretamente.
-
+# Exercício de MLP - pedrotpc
 
 ## Exercício 1: Cálculo manual de uma MLP
 
 Considere uma MLP simples com duas entradas, uma camada oculta com dois neurônios e um neurônio de saída. A função de ativação da camada oculta e da saída é a tangente hiperbólica. A função de perda é o erro quadrático médio (MSE):
-\[L = \frac{1}{2}(y - \hat{y})^2\], onde \(\hat{y}\) é a saída da rede.
+$L = \frac{1}{2}(y - \hat{y})^2$, onde $\hat{y}$ é a saída da rede.
 
 Valores fornecidos:
 
-- **Entradas e saída desejada:** \(x = [0{,}5,\,-0{,}2]\), \(y=1{,}0\).
-- **Pesos da camada oculta:**
+* **Entradas e saída desejada:** $x = [0{,}5,\,-0{,}2]$, $y=1{,}0$.
 
-  \[W^{(1)} = \begin{bmatrix}
- 0{,}3 & -0{,}1 \\
- 0{,}2 & 0{,}4
- \end{bmatrix}\]
+* **Pesos da camada oculta:**
 
-- **Vieses da camada oculta:** \(b^{(1)} = [0{,}1,\,-0{,}2]\).
-- **Pesos da camada de saída:** \(W^{(2)} = [0{,}5,\,-0{,}3]\).
-- **Viés da camada de saída:** \(b^{(2)} = 0{,}2\).
-- **Taxa de aprendizado:** \(\eta = 0{,}1\).
+  $$
+  W^{(1)} = \begin{bmatrix}
+  0{,}3 & -0{,}1 \\
+  0{,}2 & 0{,}4
+  \end{bmatrix}
+  $$
+
+* **Vieses da camada oculta:** $b^{(1)} = [0{,}1,\,-0{,}2]$.
+
+* **Pesos da camada de saída:** $W^{(2)} = [0{,}5,\,-0{,}3]$.
+
+* **Viés da camada de saída:** $b^{(2)} = 0{,}2$.
+
+* **Taxa de aprendizado:** $\eta = 0{,}1$.
 
 O objetivo é calcular passo a passo o percurso pelo grafo computacional: pré ativações, ativações, perda, gradientes de todos os pesos e vieses, e as atualizações de parâmetros usando descida de gradiente.
 
-
 ### Passo 1 – Passagem direta
 
-1. **Pré ativações da camada oculta:**  
-   \[
-   z^{(1)} = W^{(1)} x + b^{(1)}
-   \]
-   Calculando:
-   \[
-   z^{(1)} = \begin{bmatrix}0{,}3 & -0{,}1 \\
- 0{,}2 & 0{,}4\end{bmatrix}\cdot\begin{bmatrix}0{,}5 \\ -0{,}2\end{bmatrix}+\begin{bmatrix}0{,}1 \\ -0{,}2\end{bmatrix}
-   = \begin{bmatrix}0{,}27 \\ -0{,}18\end{bmatrix}.
-   \]
+#### Pré ativações da camada oculta:
 
-2. **Ativações da camada oculta:** usa a tangente hiperbólica \(\tanh(z)\). Para cada elemento:
-   \[
-   a^{(1)}_1 = \tanh(0{,}27) \approx 0{,}2636, \quad a^{(1)}_2 = \tanh(-0{,}18) \approx -0{,}1781.
-   \]
-   Portanto \(a^{(1)} = [0{,}2636,\,-0{,}1781]\).
+$$
+z^{(1)} = W^{(1)} x + b^{(1)}
+$$
 
-3. **Pré ativação da saída:**  
-   \[
-   z^{(2)} = W^{(2)} a^{(1)} + b^{(2)} = [0{,}5,\,-0{,}3]\cdot\begin{bmatrix}0{,}2636 \\ -0{,}1781\end{bmatrix}+0{,}2 \approx 0{,}3852.
-   \]
+Calculando:
 
-4. **Saída final:** \(\hat{y} = \tanh(z^{(2)})\). Como \(z^{(2)} \approx 0{,}3852\), então
-   \[
-   \hat{y} = \tanh(0{,}3852) \approx 0{,}3672.
-   \]
+$$
+z^{(1)} = \begin{bmatrix}0{,}3 & -0{,}1 \\
+0{,}2 & 0{,}4\end{bmatrix}\cdot\begin{bmatrix}0{,}5 \\ -0{,}2\end{bmatrix}+\begin{bmatrix}0{,}1 \\ -0{,}2\end{bmatrix}
+= \begin{bmatrix}0{,}27 \\ -0{,}18\end{bmatrix}.
+$$
 
+#### Ativações da camada oculta: usa a tangente hiperbólica $\tanh(z)$. Para cada elemento:
+
+$$
+a^{(1)}_1 = \tanh(0{,}27) \approx 0{,}2636, \quad a^{(1)}_2 = \tanh(-0{,}18) \approx -0{,}1781.
+$$
+
+Portanto $a^{(1)} = [0{,}2636,\,-0{,}1781]$.
+
+#### Pré ativação da saída:
+
+$$
+z^{(2)} = W^{(2)} a^{(1)} + b^{(2)} = [0{,}5,\,-0{,}3]\cdot\begin{bmatrix}0{,}2636 \\ -0{,}1781\end{bmatrix}+0{,}2 \approx 0{,}3852.
+$$
+
+#### Saída final: $\hat{y} = \tanh(z^{(2)})$. Como $z^{(2)} \approx 0{,}3852$, então
+
+$$
+\hat{y} = \tanh(0{,}3852) \approx 0{,}3672.
+$$
 
 ### Passo 2 – Cálculo da perda
 
 A perda é o erro quadrático médio para uma única amostra:
-\[
-L = \frac{1}{2}(y - \hat{y})^2 = \frac{1}{2}(1{,}0 - 0{,}3672)^2 \approx 0{,}2002.
-\]
 
+$$
+L = \frac{1}{2}(y - \hat{y})^2 = \frac{1}{2}(1{,}0 - 0{,}3672)^2 \approx 0{,}2002.
+$$
 
 ### Passo 3 – Retropropagação
 
 Para atualizar os parâmetros, calcula se o gradiente da perda em relação a cada peso e viés.
 
-1. **Gradiente no neurônio de saída:**
+#### Gradiente no neurônio de saída:
 
-   - Derivada da perda em relação à saída predita: \(\frac{\partial L}{\partial \hat{y}} = \hat{y} - y\).
-   - Derivada da tangente hiperbólica: \(\frac{\mathrm{d}}{\mathrm{d}z} \tanh(z) = 1 - \tanh^2(z)\).
+* Derivada da perda em relação à saída predita: $\frac{\partial L}{\partial \hat{y}} = \hat{y} - y$.
+* Derivada da tangente hiperbólica: $\frac{\mathrm{d}}{\mathrm{d}z} \tanh(z) = 1 - \tanh^2(z)$.
 
-   Assim, o erro na saída (\(\delta^{(2)}\)) é
-   \[
-   \delta^{(2)} = (\hat{y} - y) \cdot \bigl(1 - \hat{y}^2\bigr) \approx (0{,}3672 - 1{,}0)\cdot (1 - 0{,}3672^2) \approx -0{,}5474.
-   \]
+Assim, o erro na saída ($\delta^{(2)}$) é
 
-   - **Gradiente dos pesos da saída:**
-     \[
-     \frac{\partial L}{\partial W^{(2)}} = \delta^{(2)}\,a^{(1)} \approx -0{,}5474 \times [0{,}2636,\,-0{,}1781] \approx [-0{,}1443,\,0{,}0975].
-     \]
-   - **Gradiente do viés da saída:** \(\frac{\partial L}{\partial b^{(2)}} = \delta^{(2)} \approx -0{,}5474\).
+$$
+\delta^{(2)} = (\hat{y} - y) \cdot \bigl(1 - \hat{y}^2\bigr) \approx (0{,}3672 - 1{,}0)\cdot (1 - 0{,}3672^2) \approx -0{,}5474.
+$$
 
-2. **Propagação para a camada oculta:**
+* **Gradiente dos pesos da saída:**
 
-   O erro em cada neurônio oculto (\(\delta^{(1)}\)) é obtido multiplicando \(\delta^{(2)}\) pelos pesos da saída e pela derivada da tangente hiperbólica nos neurônios ocultos:
-   \[
-   \delta^{(1)} = \bigl(\delta^{(2)}\,W^{(2)}\bigr) \circ \bigl(1 - (a^{(1)})^2\bigr),
-   \]
-   onde \(\circ\) indica produto elemento a elemento. Assim:
-   \[
-   \delta^{(1)} \approx [-0{,}2547,\,0{,}1590].
-   \]
-   - **Gradiente dos pesos da camada oculta:**
-     \[
-     \frac{\partial L}{\partial W^{(1)}} = \delta^{(1)}\,x^\top \approx
-     \begin{bmatrix}
-     -0{,}1273 & 0{,}0509 \\
-      0{,}0795 & -0{,}0318
-     \end{bmatrix}.
-     \]
-   - **Gradiente dos vieses da camada oculta:** \(\frac{\partial L}{\partial b^{(1)}} = \delta^{(1)} \approx [-0{,}2547,\,0{,}1590].\)
+$$
+\frac{\partial L}{\partial W^{(2)}} = \delta^{(2)}\,a^{(1)} \approx -0{,}5474 \times [0{,}2636,\,-0{,}1781] \approx [-0{,}1443,\,0{,}0975].
+$$
 
+* **Gradiente do viés da saída:** $\frac{\partial L}{\partial b^{(2)}} = \delta^{(2)} \approx -0{,}5474$.
+
+#### Propagação para a camada oculta:
+
+O erro em cada neurônio oculto ($\delta^{(1)}$) é obtido multiplicando $\delta^{(2)}$ pelos pesos da saída e pela derivada da tangente hiperbólica nos neurônios ocultos:
+
+$$
+\delta^{(1)} = \bigl(\delta^{(2)}\,W^{(2)}\bigr) \circ \bigl(1 - (a^{(1)})^2\bigr),
+$$
+
+onde $\circ$ indica produto elemento a elemento. Assim:
+
+$$
+\delta^{(1)} \approx [-0{,}2547,\,0{,}1590].
+$$
+
+* **Gradiente dos pesos da camada oculta:**
+
+$$
+\frac{\partial L}{\partial W^{(1)}} = \delta^{(1)}\,x^\top \approx
+\begin{bmatrix} -0{,}1273 & 0{,}0509 \\
+0{,}0795 & -0{,}0318
+\end{bmatrix}.
+$$
+
+* **Gradiente dos vieses da camada oculta:** $\frac{\partial L}{\partial b^{(1)}} = \delta^{(1)} \approx [-0{,}2547,\,0{,}1590].$
 
 ### Passo 4 – Atualização dos parâmetros
 
-A atualização usa descida de gradiente simples com taxa de aprendizado \(\eta = 0{,}1\). Para cada parâmetro \(\theta\):
-\[\theta \gets \theta - \eta\,\frac{\partial L}{\partial \theta}.\]
+A atualização usa descida de gradiente simples com taxa de aprendizado $\eta = 0{,}1$. Para cada parâmetro $\theta$:
+
+$$
+\theta \gets \theta - \eta\,\frac{\partial L}{\partial \theta}.
+$$
 
 Calculando as novas variáveis:
 
-- **Atualização de \(W^{(2)}\):**
-  \[
-  W^{(2)}_{\text{novo}} = W^{(2)} - \eta\,\frac{\partial L}{\partial W^{(2)}} = [0{,}5,\,-0{,}3] - 0{,}1\times [-0{,}1443,\,0{,}0975] \approx [0{,}5144,\,-0{,}3097].
-  \]
+**Atualização de $W^{(2)}$:**
 
-- **Atualização de \(b^{(2)}\):**
-  \[
-  b^{(2)}_{\text{novo}} = 0{,}2 - 0{,}1\times(-0{,}5474) \approx 0{,}2547.
-  \]
+$$
+W^{(2)}_{\text{novo}} = W^{(2)} - \eta\,\frac{\partial L}{\partial W^{(2)}} = [0{,}5,\,-0{,}3] - 0{,}1\times [-0{,}1443,\,0{,}0975] \approx [0{,}5144,\,-0{,}3097].
+$$
 
-- **Atualização de \(W^{(1)}\):**
-  \[
-  W^{(1)}_{\text{novo}} = W^{(1)} - 0{,}1\times
-     \begin{bmatrix}
-     -0{,}1273 & 0{,}0509 \\
-      0{,}0795 & -0{,}0318
-     \end{bmatrix}
-     = \begin{bmatrix}
-     0{,}3 & -0{,}1 \\
-     0{,}2 & 0{,}4
-     \end{bmatrix} - 0{,}1\times
-     \begin{bmatrix}
-     -0{,}1273 & 0{,}0509 \\
-      0{,}0795 & -0{,}0318
-     \end{bmatrix}
-     \approx \begin{bmatrix}0{,}3127 & -0{,}1051\\0{,}1920 & 0{,}4032\end{bmatrix}.
-     \]
+**Atualização de $b^{(2)}$:**
 
-- **Atualização de \(b^{(1)}\):**
-  \[
-  b^{(1)}_{\text{novo}} = b^{(1)} - 0{,}1\times [-0{,}2547,\,0{,}1590] \approx [0{,}1255,\,-0{,}2159].
-  \]
+$$
+b^{(2)}_{\text{novo}} = 0{,}2 - 0{,}1\times(-0{,}5474) \approx 0{,}2547.
+$$
+
+**Atualização de $W^{(1)}$:**
+
+$$
+W^{(1)}_{\text{novo}} = W^{(1)} - 0{,}1\times
+\begin{bmatrix} -0{,}1273 & 0{,}0509 \\
+0{,}0795 & -0{,}0318
+\end{bmatrix} =
+\begin{bmatrix}
+0{,}3 & -0{,}1 \\
+0{,}2 & 0{,}4
+\end{bmatrix} - 0{,}1\times
+\begin{bmatrix} -0{,}1273 & 0{,}0509 \\
+0{,}0795 & -0{,}0318
+\end{bmatrix}
+\approx \begin{bmatrix}0{,}3127 & -0{,}1051\\0{,}1920 & 0{,}4032\end{bmatrix}.
+$$
+
+* **Atualização de $b^{(1)}$:**
+
+$$
+b^{(1)}_{\text{novo}} = b^{(1)} - 0{,}1\times [-0{,}2547,\,0{,}1590] \approx [0{,}1255,\,-0{,}2159].
+$$
 
 Esses são os parâmetros atualizados após uma iteração.
-
 
 ## Exercício 2: Classificação binária com MLP escrito do zero
 
@@ -330,7 +349,7 @@ plt.show()
 
 ### Análise dos resultados do Exercício 2
 
-O modelo binário foi treinado com uma camada oculta de quatro neurônios e ativação \(\tanh\). Após 200 épocas, a perda de treino diminuiu de forma estável, indicando aprendizado. No conjunto de teste, a acurácia típica obtida foi superior a 0{,}9, o que demonstra que a rede consegue separar os clusters com boa precisão. O gráfico de perda por época ajuda a visualizar a convergência da descida de gradiente.
+O modelo binário foi treinado com uma camada oculta de quatro neurônios e ativação \(\tanh\). Após 200 épocas, a perda de treino diminuiu de forma estável, indicando aprendizado. No conjunto de teste, a acurácia típica obtida foi superior a 0,9, o que demonstra que a rede consegue separar os clusters com boa precisão. O gráfico de perda por época ajuda a visualizar a convergência da descida de gradiente.
 
 A visualização da fronteira de decisão mostra que a rede aprendeu uma curva que separa os dois agrupamentos da classe 1 do agrupamento único da classe 0. A maior parte dos pontos é classificada corretamente, evidenciando que um MLP simples é suficiente para resolver este problema binário.
 
@@ -491,12 +510,11 @@ plt.show()
 
 O modelo multiclasse utilizou uma camada oculta com oito neurônios e função \(\tanh\). A saída possui três neurônios e utiliza softmax com entropia cruzada categórica. A rede foi treinada por 200 épocas.
 
-A perda de treino decresceu ao longo das épocas e a acurácia sobre o conjunto de teste ficou acima de 0{,}8 na maioria das execuções. Esse resultado mostra que o MLP foi capaz de distinguir as três classes, mesmo com múltiplos agrupamentos internos. Ajustar hiperparâmetros como tamanho da camada oculta, taxa de aprendizado ou número de épocas pode melhorar ainda mais o desempenho.
-
+A perda de treino decresceu ao longo das épocas e a acurácia sobre o conjunto de teste ficou acima de 0,8 na maioria das execuções. Esse resultado mostra que o MLP foi capaz de distinguir as três classes, mesmo com múltiplos agrupamentos internos. Ajustar hiperparâmetros como tamanho da camada oculta, taxa de aprendizado ou número de épocas pode melhorar ainda mais o desempenho.
 
 ## Exercício 4: MLP com duas camadas ocultas
 
-Para finalizar, repete‑se o exercício 3 com uma arquitetura mais profunda: a rede agora possui duas camadas ocultas. A primeira camada oculta contém doze neurônios e a segunda camada contém seis neurônios. As funções de ativação são \(	anh\) em ambas as camadas. A saída continua a usar softmax. O mesmo conjunto multiclasse do exercício 3 é reutilizado.
+Para finalizar, repete‑se o exercício 3 com uma arquitetura mais profunda: a rede agora possui duas camadas ocultas. A primeira camada oculta contém doze neurônios e a segunda camada contém seis neurônios. As funções de ativação são \(tanh\) em ambas as camadas. A saída continua a usar softmax. O mesmo conjunto multiclasse do exercício 3 é reutilizado.
 
 
 
@@ -623,6 +641,6 @@ plt.show()
 
 ### Análise dos resultados do Exercício 4
 
-Ao adicionar uma segunda camada oculta, a rede neural passa a ter maior capacidade de modelar padrões complexos. Usando doze neurônios na primeira camada oculta e seis neurônios na segunda, observa se que a perda de treino diminui de forma semelhante ao exercício 3. A acurácia no conjunto de teste também melhora levemente ou permanece estável dependendo da inicialização, situando se em torno de 0{,}85.
+Ao adicionar uma segunda camada oculta, a rede neural passa a ter maior capacidade de modelar padrões complexos. Usando doze neurônios na primeira camada oculta e seis neurônios na segunda, observa se que a perda de treino diminui de forma semelhante ao exercício 3. A acurácia no conjunto de teste também melhora levemente ou permanece estável dependendo da inicialização, situando se em torno de 0,81.
 
 A presença de duas camadas ocultas permite que a rede aprenda representações mais ricas dos dados, mas também aumenta o risco de sobreajuste e eleva o custo computacional. Ajustes adicionais nos hiperparâmetros e regularização podem ser explorados para obter ganhos adicionais.
