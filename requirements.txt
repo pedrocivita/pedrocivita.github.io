@@ -16,4 +16,3 @@ numpy
 pandas
 yfinance
 nbformat
-
