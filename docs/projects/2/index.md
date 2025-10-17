@@ -1021,9 +1021,9 @@ print(f"  Mediana do erro absoluto: {np.median(np.abs(residuals)):.2f}")
 ## 9. Conclusão
 
 ### Resultados:
-- **R² = {:.4f}**: Modelo explica ~{:.1f}% da variância
-- **RMSE = {:.2f}**: Erro médio de ~{:.0f} aluguéis
-- **Melhoria sobre baseline**: {:.1f}%
+- **R² = 0.8809**: Modelo explica ~88.1% da variância
+- **RMSE = 63.44**: Erro médio de ~63 aluguéis
+- **Melhoria sobre baseline**: 65.5%
 
 ### Limitações:
 - MLP não captura dependências temporais de longo prazo
