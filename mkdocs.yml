@@ -1,4 +1,4 @@
-site_name: Artificial Neural Networks and Deep Learning - pedrotpc
+site_name: Pedro Toledo Piza Civita - Portfólio
 site_author: Pedro Toledo Piza Civita
 site_url: https://pedrocivita.github.io
 repo_url: https://github.com/pedrocivita/pedrocivita.github.io
@@ -149,13 +149,15 @@ extra_css:
 nav:
   - Home: index.md
 
-  - Exercises:
-      - "1. Data": exercises/1/index.md
-      - "2. Perceptron": exercises/2/index.md
-      - "3. MLP": exercises/3/index.md
-      - "4. VAE": exercises/4/index.md
-
-  - Projects:
-      - "1. Classification": projects/1/index.md
-      - "2. Regression": projects/2/index.md
-      - "3. Generative Models": projects/3/index.md
+  - Portfólio:
+      - Redes Neurais e Deep Learning:
+          - Introdução: portfolio/neural-networks/index.md
+          - Exercícios:
+              - "1. Data": portfolio/neural-networks/exercises/1/index.md
+              - "2. Perceptron": portfolio/neural-networks/exercises/2/index.md
+              - "3. MLP": portfolio/neural-networks/exercises/3/index.md
+              - "4. VAE": portfolio/neural-networks/exercises/4/index.md
+          - Projetos:
+              - "1. Classification": portfolio/neural-networks/projects/1/index.md
+              - "2. Regression": portfolio/neural-networks/projects/2/index.md
+              - "3. Generative Models": portfolio/neural-networks/projects/3/index.md
