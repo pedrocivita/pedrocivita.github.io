@@ -1,90 +1,64 @@
-# Artificial Neural Networks and Deep Learning
+# Portfólio - Pedro Toledo Piza Civita
 
+Bem-vindo ao meu portfólio de projetos profissionais e acadêmicos do Insper.
 
-???+ info inline end "Edição"
+## :fontawesome-solid-user: Sobre Mim
 
-    2025.2
+**Pedro Toledo Piza Civita**  
+Estudante de Engenharia da Computação no Insper - Instituto de Ensino e Pesquisa
 
+- :fontawesome-solid-envelope: [pedrotpc@al.insper.edu.br](mailto:pedrotpc@al.insper.edu.br)
+- :fontawesome-brands-linkedin: [LinkedIn](https://linkedin.com/in/pedro-toledo-piza-civita)
+- :fontawesome-brands-github: [GitHub](https://github.com/pedrocivita)
 
-## Pedro Toledo Piza Civita
+---
 
-- pedrotpc@al.insper.edu.br
+## :fontawesome-solid-folder-open: Projetos
 
+Este portfólio reúne meus principais projetos desenvolvidos durante a graduação em Engenharia da Computação no Insper, abrangendo diferentes áreas da computação e tecnologia.
 
+### :fontawesome-solid-brain: Redes Neurais Artificiais e Deep Learning
 
-## Entregas
+Portfólio completo de projetos e exercícios desenvolvidos durante o curso de Redes Neurais Artificiais e Deep Learning, incluindo:
 
-- [x] Exercício 1 - Data 05/09/2025
-- [x] Exercício 2 - Data 12/09/2025
-- [x] Exercício 3 - Data 19/09/2025
-- [ ] Exercício 4 - Data 26/09/2025
-- [ ] Projetos
+- :fontawesome-solid-database: Preparação e análise de dados
+- :fontawesome-solid-circle-nodes: Implementação de Perceptron
+- :fontawesome-solid-layer-group: Redes Neurais Multi-Camada (MLP)
+- :fontawesome-solid-robot: Autoencoders Variacionais (VAE)
+- :fontawesome-solid-chart-line: Projetos de Classificação, Regressão e Modelos Generativos
 
-<!-- ## Diagramas
+[Ver projeto completo →](neural-networks/index.md){ .md-button .md-button--primary }
 
-Use o [Mermaid](https://mermaid.js.org/intro/){:target='_blank'} para criar os diagramas de documentação.
+---
 
-[Mermaid Live Editor](https://mermaid.live/){:target='_blank'}
+### :fontawesome-solid-code: Outros Projetos
 
+_Mais projetos serão adicionados em breve..._
 
-``` mermaid
-flowchart TD
-    Deployment:::orange -->|defines| ReplicaSet
-    ReplicaSet -->|manages| pod((Pod))
-    pod:::red -->|runs| Container
-    Deployment -->|scales| pod
-    Deployment -->|updates| pod
+---
 
-    Service:::orange -->|exposes| pod
+## :fontawesome-solid-laptop-code: Habilidades Técnicas
 
-    subgraph  
-        ConfigMap:::orange
-        Secret:::orange
-    end
+!!! info "Linguagens de Programação"
+    Python • Java • C • C++ • JavaScript
 
-    ConfigMap --> Deployment
-    Secret --> Deployment
-    classDef red fill:#f55
-    classDef orange fill:#ffa500
-```
+!!! success "Machine Learning & Data Science"
+    NumPy • Pandas • Matplotlib • TensorFlow • PyTorch • Scikit-learn
 
+!!! tip "Desenvolvimento Web"
+    React • Node.js • HTML/CSS • Express
 
+!!! example "Ferramentas & Tecnologias"
+    Git • Docker • Linux • VS Code • Jupyter Notebook
 
-## Códigos
+---
 
-=== "De um arquivo remoto"
+## :fontawesome-solid-envelope: Contato
 
-    ``` { .yaml .copy .select linenums='1' title="main.yaml" }
-    --8<-- "https://raw.githubusercontent.com/hsandmann/documentation.template/refs/heads/main/.github/workflows/main.yaml"
-    ```
+Para oportunidades profissionais ou colaborações acadêmicas, entre em contato através dos canais listados acima.
 
-=== "Anotações no código"
+---
 
-    ``` { .yaml title="compose.yaml" }
-    name: app
-
-        db:
-            image: postgres:17
-            environment:
-                POSTGRES_DB: ${POSTGRES_DB:-projeto} # (1)!
-                POSTGRES_USER: ${POSTGRES_USER:-projeto}
-                POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-projeto}
-            ports:
-                - 5432:5432 #(2)!
-    ```
-
-    1.  Caso a variável de ambiente `POSTGRES_DB` não exista ou seja nula - não seja definida no arquivo `.env` - o valor padrão será `projeto`. Vide [documentação](https://docs.docker.com/reference/compose-file/interpolation/){target='_blank'}.
-
-    2. Aqui é feito um túnel da porta 5432 do container do banco de dados para a porta 5432 do host (no caso localhost). Em um ambiente de produção, essa porta não deve ser exposta, pois ninguém de fora do compose deveria acessar o banco de dados diretamente.
-
-
-## Exemplo de vídeo
-
-Lorem ipsum dolor sit amet
-
-<iframe width="100%" height="470" src="https://www.youtube.com/embed/3574AYQml8w" allowfullscreen></iframe> -->
-
-
-## Referências
-
-[Material for MkDocs](https://squidfunk.github.io/mkdocs-material/reference/){:target='_blank'}
+<div style="text-align: center; color: #888; font-size: 0.9em;">
+    <p>© 2025 Pedro Toledo Piza Civita - Insper</p>
+</div>

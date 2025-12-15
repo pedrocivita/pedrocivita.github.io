@@ -1,175 +1,154 @@
-# Artificial Neural Networks and Deep Learning
+# Portfólio - Pedro Toledo Piza Civita
 
-[![Python](https://img.shields.io/badge/Python-3.8%2B-blue?logo=python&logoColor=white)](https://www.python.org/)
 [![MkDocs](https://img.shields.io/badge/MkDocs-Material-526CFE?logo=materialformkdocs&logoColor=white)](https://squidfunk.github.io/mkdocs-material/)
-[![NumPy](https://img.shields.io/badge/NumPy-013243?logo=numpy&logoColor=white)](https://numpy.org/)
-[![Pandas](https://img.shields.io/badge/Pandas-150458?logo=pandas&logoColor=white)](https://pandas.pydata.org/)
-[![Matplotlib](https://img.shields.io/badge/Matplotlib-11557c?logo=python&logoColor=white)](https://matplotlib.org/)
 [![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-222222?logo=githubpages&logoColor=white)](https://pedrocivita.github.io)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-A comprehensive portfolio of neural network projects and exercises developed during the Artificial Neural Networks and Deep Learning course at Insper - Instituto de Ensino e Pesquisa, as part of the Computer Engineering undergraduate program.
+Portfólio de projetos profissionais e acadêmicos desenvolvidos durante a graduação em Engenharia da Computação no Insper - Instituto de Ensino e Pesquisa.
 
 **Live Documentation:** [https://pedrocivita.github.io](https://pedrocivita.github.io)
 
-## About
+## Sobre
 
-This repository contains a complete collection of theoretical and practical work exploring fundamental concepts and advanced applications in artificial neural networks and deep learning. The content is organized as a professional documentation website built with MkDocs Material, showcasing implementations, analyses, and research across multiple domains of machine learning.
+Este repositório serve como meu portfólio principal no GitHub Pages, reunindo projetos e trabalhos desenvolvidos ao longo da graduação em Engenharia da Computação no Insper. O conteúdo está organizado como um site de documentação profissional construído com MkDocs Material.
 
-The coursework covers essential topics including data preprocessing, perceptrons, multi-layer perceptrons (MLPs), variational autoencoders (VAEs), and various neural network architectures applied to real-world problems.
+## Projetos em Destaque
 
-## Projects
+### Redes Neurais Artificiais e Deep Learning
 
-### 1. Classification
-Implementation of classification algorithms using neural networks for pattern recognition and decision-making tasks.
+Portfólio completo de projetos e exercícios do curso de Redes Neurais Artificiais e Deep Learning, abrangendo:
 
-### 2. Regression
-Development of regression models leveraging deep learning techniques for continuous value prediction, including a comprehensive Jupyter notebook implementation.
+- Preparação e análise de dados
+- Implementação de Perceptron
+- Redes Neurais Multi-Camada (MLP)
+- Autoencoders Variacionais (VAE)
+- Projetos de Classificação, Regressão e Modelos Generativos
 
-### 3. Generative Models
-Exploration of generative neural network architectures capable of creating new data samples similar to training data.
+### Futuros Projetos
 
-## Exercises
+Este portfólio será expandido com novos projetos das seguintes áreas:
 
-### Exercise 1: Data Preparation and Analysis
-- Synthetic dataset generation with Gaussian distributions
-- Class separability analysis in 2D space
-- PCA dimensionality reduction and visualization
-- Real-world data preprocessing with the Spaceship Titanic dataset
-- Feature engineering and normalization techniques
+- Desenvolvimento de Software
+- Sistemas Embarcados
+- Arquitetura de Computadores
+- Banco de Dados
+- E muito mais...
 
-### Exercise 2: Perceptron
-Implementation and analysis of the perceptron algorithm, the fundamental building block of neural networks.
+## Tecnologias Utilizadas
 
-### Exercise 3: Multi-Layer Perceptron (MLP)
-Construction and training of multi-layer neural networks for complex pattern recognition tasks.
+### Documentação
 
-### Exercise 4: Variational Autoencoder (VAE)
-Development of variational autoencoders for unsupervised learning and generative modeling.
+- **MkDocs Material** - Theme moderno com Material Design
+- **mkdocs-jupyter** - Integração com Jupyter notebooks
+- **mkdocs-glightbox** - Lightbox para imagens
+- **Diversos plugins** - Para funcionalidades avançadas
 
-## Technologies
+### Projetos
 
-This project utilizes a modern Python-based machine learning stack:
+As tecnologias variam conforme o projeto. Consulte a documentação de cada projeto para detalhes específicos.
 
-- **Python 3.8+** - Core programming language
-- **NumPy** - Numerical computing and array operations
-- **Pandas** - Data manipulation and analysis
-- **Matplotlib** - Data visualization and plotting
-- **MkDocs Material** - Professional documentation generation
-- **Jupyter Notebook** - Interactive development environment
-- **nbformat** - Jupyter notebook file manipulation
-- **yfinance** - Financial data retrieval (for specific projects)
+## Instalação
 
-### Documentation Plugins
+### Pré-requisitos
 
-- **mkdocs-material** - Modern Material Design theme
-- **mkdocs-jupyter** - Jupyter notebook integration
-- **mkdocs-git-authors-plugin** - Author attribution
-- **mkdocs-git-revision-date-localized-plugin** - Localized revision dates
-- **mkdocs-glightbox** - Image lightbox functionality
-- **mkdocs-badges** - Dynamic badge generation
-
-## Installation
-
-### Prerequisites
-
-- Python 3.8 or higher
+- Python 3.8 ou superior
 - pip package manager
 - Git
 
-### Setup Instructions
+### Instruções de Setup
 
-1. Clone the repository:
+1. Clone o repositório:
 
 ```bash
 git clone https://github.com/pedrocivita/pedrocivita.github.io.git
 cd pedrocivita.github.io
 ```
 
-2. Create a Python virtual environment:
+2. Crie um ambiente virtual Python:
 
 ```bash
 python3 -m venv env
 ```
 
-3. Activate the virtual environment:
+3. Ative o ambiente virtual:
 
 ```bash
-# On Linux/macOS
+# No Linux/macOS
 source ./env/bin/activate
 
-# On Windows
+# No Windows
 .\env\Scripts\activate
 ```
 
-4. Install dependencies:
+4. Instale as dependências:
 
 ```bash
 python3 -m pip install -r requirements.txt --upgrade
 ```
 
-## Usage
+## Uso
 
-### Local Development
+### Desenvolvimento Local
 
-To preview the documentation locally with live reload:
+Para visualizar a documentação localmente com live reload:
 
 ```bash
 mkdocs serve -o
 ```
 
-The documentation will be available at `http://127.0.0.1:8000/`
+A documentação estará disponível em `http://127.0.0.1:8000/`
 
-### Deployment
+### Deploy
 
-To deploy the documentation to GitHub Pages:
+Para fazer deploy da documentação no GitHub Pages:
 
 ```bash
 mkdocs gh-deploy
 ```
 
-This command builds the site and pushes it to the `gh-pages` branch.
+Este comando constrói o site e o publica no branch `gh-pages`.
 
-## Repository Structure
+## Estrutura do Repositório
 
 ```
 .
-├── docs/                   # Documentation source files
-│   ├── exercises/         # Course exercises (1-4)
-│   ├── projects/          # Course projects (1-3)
-│   └── index.md           # Homepage
-├── mkdocs.yml             # MkDocs configuration
-├── requirements.txt       # Python dependencies
-└── README.md             # This file
+├── docs/                           # Arquivos fonte da documentação
+│   ├── index.md                   # Homepage do portfólio
+│   └── neural-networks/           # Projeto de Redes Neurais
+│       ├── index.md              # Página inicial do projeto
+│       ├── exercises/            # Exercícios do curso (1-4)
+│       └── projects/             # Projetos do curso (1-3)
+├── mkdocs.yml                     # Configuração do MkDocs
+├── requirements.txt               # Dependências Python
+└── README.md                      # Este arquivo
 ```
 
-## Author
+## Autor
 
 **Pedro Toledo Piza Civita**
 
-Computer Engineering Student at Insper - Instituto de Ensino e Pesquisa
+Estudante de Engenharia da Computação no Insper - Instituto de Ensino e Pesquisa
 
 - Email: pedrotpc@al.insper.edu.br
 - LinkedIn: [Pedro Toledo Piza Civita](https://linkedin.com/in/pedro-toledo-piza-civita)
 - GitHub: [@pedrocivita](https://github.com/pedrocivita)
 
-## Academic Context
+## Contexto Acadêmico
 
-**Institution:** Insper - Instituto de Ensino e Pesquisa  
-**Program:** Computer Engineering (Engenharia de Computação)  
-**Course:** Artificial Neural Networks and Deep Learning  
-**Semester:** 2025.2
+**Instituição:** Insper - Instituto de Ensino e Pesquisa  
+**Programa:** Engenharia da Computação  
+**Período:** 2022 - 2026
 
-## License
+## Licença
 
-This project is part of academic coursework and is provided for educational purposes. Please refer to your institution's academic integrity policies before reusing any content.
+Este projeto faz parte de trabalhos acadêmicos e é fornecido para fins educacionais. Por favor, consulte as políticas de integridade acadêmica de sua instituição antes de reutilizar qualquer conteúdo.
 
-## Acknowledgments
+## Agradecimentos
 
-- Insper faculty and staff for their guidance and support
-- The open-source community for the excellent tools and libraries
-- Course colleagues for collaboration and knowledge sharing
+- Professores e equipe do Insper pelo apoio e orientação
+- Comunidade open-source pelas excelentes ferramentas e bibliotecas
+- Colegas de curso pela colaboração e compartilhamento de conhecimento
 
 ---
 
-For more information, visit the [live documentation](https://pedrocivita.github.io) or contact me through the channels listed above.
+Para mais informações, visite a [documentação live](https://pedrocivita.github.io) ou entre em contato através dos canais listados acima.
