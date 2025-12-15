@@ -1,0 +1,528 @@
+<!DOCTYPE html><html lang=pt class=no-js><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=author content="Pedro Toledo Piza Civita"><link href=https://pedrocivita.github.io/portfolio/neural-networks/projects/2/ rel=canonical><link href=../1/ rel=prev><link href=../3/ rel=next><link rel=icon href=../../../../assets/images/favicon.png><meta name=generator content="mkdocs-1.6.1, mkdocs-material-9.7.0"><title>2. Regression - Pedro Toledo Piza Civita - Portfólio</title><link rel=stylesheet href=../../../../assets/stylesheets/main.618322db.min.css><link rel=stylesheet href=../../../../assets/stylesheets/palette.ab4e12ef.min.css><style>:root{--md-admonition-icon--note:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20448%20512%22%3E%3C%21--%21%20Font%20Awesome%20Free%207.1.0%20by%20%40fontawesome%20-%20https%3A//fontawesome.com%20License%20-%20https%3A//fontawesome.com/license/free%20%28Icons%3A%20CC%20BY%204.0%2C%20Fonts%3A%20SIL%20OFL%201.1%2C%20Code%3A%20MIT%20License%29%20Copyright%202025%20Fonticons%2C%20Inc.--%3E%3Cpath%20d%3D%22M64%20480c-35.3%200-64-28.7-64-64V96c0-35.3%2028.7-64%2064-64h320c35.3%200%2064%2028.7%2064%2064v213.5c0%2017-6.7%2033.3-18.7%2045.3L322.7%20461.3c-12%2012-28.3%2018.7-45.3%2018.7zm325.5-176H296c-13.3%200-24%2010.7-24%2024v93.5z%22/%3E%3C/svg%3E');--md-admonition-icon--abstract:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20448%20512%22%3E%3C%21--%21%20Font%20Awesome%20Free%207.1.0%20by%20%40fontawesome%20-%20https%3A//fontawesome.com%20License%20-%20https%3A//fontawesome.com/license/free%20%28Icons%3A%20CC%20BY%204.0%2C%20Fonts%3A%20SIL%20OFL%201.1%2C%20Code%3A%20MIT%20License%29%20Copyright%202025%20Fonticons%2C%20Inc.--%3E%3Cpath%20d%3D%22M384%20512H96c-53%200-96-43-96-96V96C0%2043%2043%200%2096%200h304c26.5%200%2048%2021.5%2048%2048v288c0%2020.9-13.4%2038.7-32%2045.3V448c17.7%200%2032%2014.3%2032%2032s-14.3%2032-32%2032zM96%20384c-17.7%200-32%2014.3-32%2032s14.3%2032%2032%2032h256v-64zm32-232c0%2013.3%2010.7%2024%2024%2024h176c13.3%200%2024-10.7%2024-24s-10.7-24-24-24H152c-13.3%200-24%2010.7-24%2024m24%2072c-13.3%200-24%2010.7-24%2024s10.7%2024%2024%2024h176c13.3%200%2024-10.7%2024-24s-10.7-24-24-24z%22/%3E%3C/svg%3E');--md-admonition-icon--info:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20512%20512%22%3E%3C%21--%21%20Font%20Awesome%20Free%207.1.0%20by%20%40fontawesome%20-%20https%3A//fontawesome.com%20License%20-%20https%3A//fontawesome.com/license/free%20%28Icons%3A%20CC%20BY%204.0%2C%20Fonts%3A%20SIL%20OFL%201.1%2C%20Code%3A%20MIT%20License%29%20Copyright%202025%20Fonticons%2C%20Inc.--%3E%3Cpath%20d%3D%22M256%20512a256%20256%200%201%200%200-512%20256%20256%200%201%200%200%20512m-32-352a32%2032%200%201%201%2064%200%2032%2032%200%201%201-64%200m-8%2064h48c13.3%200%2024%2010.7%2024%2024v88h8c13.3%200%2024%2010.7%2024%2024s-10.7%2024-24%2024h-80c-13.3%200-24-10.7-24-24s10.7-24%2024-24h24v-64h-24c-13.3%200-24-10.7-24-24s10.7-24%2024-24%22/%3E%3C/svg%3E');--md-admonition-icon--tip:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20512%20512%22%3E%3C%21--%21%20Font%20Awesome%20Free%207.1.0%20by%20%40fontawesome%20-%20https%3A//fontawesome.com%20License%20-%20https%3A//fontawesome.com/license/free%20%28Icons%3A%20CC%20BY%204.0%2C%20Fonts%3A%20SIL%20OFL%201.1%2C%20Code%3A%20MIT%20License%29%20Copyright%202025%20Fonticons%2C%20Inc.--%3E%3Cpath%20d%3D%22M461.2%2018.9C472.7%2024%20480%2035.4%20480%2048v416c0%2012.6-7.3%2024-18.8%2029.1s-24.8%203.2-34.3-5.1l-46.6-40.7c-43.6-38.1-98.7-60.3-156.4-63V480c0%2017.7-14.3%2032-32%2032h-32c-17.7%200-32-14.3-32-32v-96C57.3%20384%200%20326.7%200%20256s57.3-128%20128-128h84.5c61.8-.2%20121.4-22.7%20167.9-63.3L427%2024c9.4-8.3%2022.9-10.2%2034.3-5.1zM224%20320v.2c70.3%202.7%20137.8%2028.5%20192%2073.4V118.3c-54.2%2044.9-121.7%2070.7-192%2073.4z%22/%3E%3C/svg%3E');--md-admonition-icon--success:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20448%20512%22%3E%3C%21--%21%20Font%20Awesome%20Free%207.1.0%20by%20%40fontawesome%20-%20https%3A//fontawesome.com%20License%20-%20https%3A//fontawesome.com/license/free%20%28Icons%3A%20CC%20BY%204.0%2C%20Fonts%3A%20SIL%20OFL%201.1%2C%20Code%3A%20MIT%20License%29%20Copyright%202025%20Fonticons%2C%20Inc.--%3E%3Cpath%20d%3D%22M434.8%2070.1c14.3%2010.4%2017.5%2030.4%207.1%2044.7l-256%20352c-5.5%207.6-14%2012.3-23.4%2013.1s-18.5-2.7-25.1-9.3l-128-128c-12.5-12.5-12.5-32.8%200-45.3s32.8-12.5%2045.3%200l101.5%20101.5%20234-321.7c10.4-14.3%2030.4-17.5%2044.7-7.1z%22/%3E%3C/svg%3E');--md-admonition-icon--question:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20512%20512%22%3E%3C%21--%21%20Font%20Awesome%20Free%207.1.0%20by%20%40fontawesome%20-%20https%3A//fontawesome.com%20License%20-%20https%3A//fontawesome.com/license/free%20%28Icons%3A%20CC%20BY%204.0%2C%20Fonts%3A%20SIL%20OFL%201.1%2C%20Code%3A%20MIT%20License%29%20Copyright%202025%20Fonticons%2C%20Inc.--%3E%3Cpath%20d%3D%22M256%20512a256%20256%200%201%200%200-512%20256%20256%200%201%200%200%20512m0-336c-17.7%200-32%2014.3-32%2032%200%2013.3-10.7%2024-24%2024s-24-10.7-24-24c0-44.2%2035.8-80%2080-80s80%2035.8%2080%2080c0%2047.2-36%2067.2-56%2074.5v3.8c0%2013.3-10.7%2024-24%2024s-24-10.7-24-24v-8.1c0-20.5%2014.8-35.2%2030.1-40.2%206.4-2.1%2013.2-5.5%2018.2-10.3%204.3-4.2%207.7-10%207.7-19.6%200-17.7-14.3-32-32-32zm-32%20192a32%2032%200%201%201%2064%200%2032%2032%200%201%201-64%200%22/%3E%3C/svg%3E');--md-admonition-icon--warning:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20512%20512%22%3E%3C%21--%21%20Font%20Awesome%20Free%207.1.0%20by%20%40fontawesome%20-%20https%3A//fontawesome.com%20License%20-%20https%3A//fontawesome.com/license/free%20%28Icons%3A%20CC%20BY%204.0%2C%20Fonts%3A%20SIL%20OFL%201.1%2C%20Code%3A%20MIT%20License%29%20Copyright%202025%20Fonticons%2C%20Inc.--%3E%3Cpath%20d%3D%22M256%200c14.7%200%2028.2%208.1%2035.2%2021l216%20400c6.7%2012.4%206.4%2027.4-.8%2039.5S486.1%20480%20472%20480H40c-14.1%200-27.2-7.4-34.4-19.5s-7.5-27.1-.8-39.5l216-400c7-12.9%2020.5-21%2035.2-21m0%20352a32%2032%200%201%200%200%2064%2032%2032%200%201%200%200-64m0-192c-18.2%200-32.7%2015.5-31.4%2033.7l7.4%20104c.9%2012.5%2011.4%2022.3%2023.9%2022.3%2012.6%200%2023-9.7%2023.9-22.3l7.4-104c1.3-18.2-13.1-33.7-31.4-33.7z%22/%3E%3C/svg%3E');--md-admonition-icon--failure:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20576%20512%22%3E%3C%21--%21%20Font%20Awesome%20Free%207.1.0%20by%20%40fontawesome%20-%20https%3A//fontawesome.com%20License%20-%20https%3A//fontawesome.com/license/free%20%28Icons%3A%20CC%20BY%204.0%2C%20Fonts%3A%20SIL%20OFL%201.1%2C%20Code%3A%20MIT%20License%29%20Copyright%202025%20Fonticons%2C%20Inc.--%3E%3Cpath%20d%3D%22M480-16c6.9%200%2013%204.4%2015.2%2010.9l13.5%2040.4%2040.4%2013.5C555.6%2051%20560%2057.1%20560%2064s-4.4%2013-10.9%2015.2l-40.4%2013.5-13.5%2040.4c-2.2%206.5-8.3%2010.9-15.2%2010.9s-13-4.4-15.2-10.9l-13.5-40.4-40.4-13.5C404.4%2077%20400%2070.9%20400%2064s4.4-13%2010.9-15.2l40.4-13.5%2013.5-40.4C467-11.6%20473.1-16%20480-16M321.4%2097.4c12.5-12.5%2032.8-12.5%2045.3%200l80%2080c12.5%2012.5%2012.5%2032.8%200%2045.3l-10.9%2010.9c7.9%2022%2012.2%2045.7%2012.2%2070.5%200%20114.9-93.1%20208-208%20208S32%20418.9%2032%20304%20125.1%2096%20240%2096c24.7%200%2048.5%204.3%2070.5%2012.3zM144%20304c0-53%2043-96%2096-96%2013.3%200%2024-10.7%2024-24s-10.7-24-24-24c-79.5%200-144%2064.5-144%20144%200%2013.3%2010.7%2024%2024%2024s24-10.7%2024-24%22/%3E%3C/svg%3E');--md-admonition-icon--danger:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20512%20512%22%3E%3C%21--%21%20Font%20Awesome%20Free%207.1.0%20by%20%40fontawesome%20-%20https%3A//fontawesome.com%20License%20-%20https%3A//fontawesome.com/license/free%20%28Icons%3A%20CC%20BY%204.0%2C%20Fonts%3A%20SIL%20OFL%201.1%2C%20Code%3A%20MIT%20License%29%20Copyright%202025%20Fonticons%2C%20Inc.--%3E%3Cpath%20d%3D%22M416%20427.4c58.5-44%2096-111.6%2096-187.4C512%20107.5%20397.4%200%20256%200S0%20107.5%200%20240c0%2075.8%2037.5%20143.4%2096%20187.4V464c0%2026.5%2021.5%2048%2048%2048h32v-40c0-13.3%2010.7-24%2024-24s24%2010.7%2024%2024v40h64v-40c0-13.3%2010.7-24%2024-24s24%2010.7%2024%2024v40h32c26.5%200%2048-21.5%2048-48zM96%20256a64%2064%200%201%201%20128%200%2064%2064%200%201%201-128%200m256-64a64%2064%200%201%201%200%20128%2064%2064%200%201%201%200-128%22/%3E%3C/svg%3E');--md-admonition-icon--bug:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20640%20512%22%3E%3C%21--%21%20Font%20Awesome%20Free%207.1.0%20by%20%40fontawesome%20-%20https%3A//fontawesome.com%20License%20-%20https%3A//fontawesome.com/license/free%20%28Icons%3A%20CC%20BY%204.0%2C%20Fonts%3A%20SIL%20OFL%201.1%2C%20Code%3A%20MIT%20License%29%20Copyright%202025%20Fonticons%2C%20Inc.--%3E%3Cpath%20d%3D%22M352%200c0-17.7-14.3-32-32-32s-32%2014.3-32%2032v64h-96c-53%200-96%2043-96%2096v224c0%2053%2043%2096%2096%2096h256c53%200%2096-43%2096-96V160c0-53-43-96-96-96h-96zM160%20368c0-13.3%2010.7-24%2024-24h32c13.3%200%2024%2010.7%2024%2024s-10.7%2024-24%2024h-32c-13.3%200-24-10.7-24-24m120%200c0-13.3%2010.7-24%2024-24h32c13.3%200%2024%2010.7%2024%2024s-10.7%2024-24%2024h-32c-13.3%200-24-10.7-24-24m120%200c0-13.3%2010.7-24%2024-24h32c13.3%200%2024%2010.7%2024%2024s-10.7%2024-24%2024h-32c-13.3%200-24-10.7-24-24M224%20176a48%2048%200%201%201%200%2096%2048%2048%200%201%201%200-96m144%2048a48%2048%200%201%201%2096%200%2048%2048%200%201%201-96%200m-304%200c0-17.7-14.3-32-32-32S0%20206.3%200%20224v96c0%2017.7%2014.3%2032%2032%2032s32-14.3%2032-32zm544-32c-17.7%200-32%2014.3-32%2032v96c0%2017.7%2014.3%2032%2032%2032s32-14.3%2032-32v-96c0-17.7-14.3-32-32-32%22/%3E%3C/svg%3E');--md-admonition-icon--example:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20448%20512%22%3E%3C%21--%21%20Font%20Awesome%20Free%207.1.0%20by%20%40fontawesome%20-%20https%3A//fontawesome.com%20License%20-%20https%3A//fontawesome.com/license/free%20%28Icons%3A%20CC%20BY%204.0%2C%20Fonts%3A%20SIL%20OFL%201.1%2C%20Code%3A%20MIT%20License%29%20Copyright%202025%20Fonticons%2C%20Inc.--%3E%3Cpath%20d%3D%22M288%200H128c-17.7%200-32%2014.3-32%2032s14.3%2032%2032%2032v151.5L7.5%20426.3C2.6%20435%200%20444.7%200%20454.7%200%20486.4%2025.6%20512%2057.3%20512h333.4c31.6%200%2057.3-25.6%2057.3-57.3%200-10-2.6-19.8-7.5-28.4L320%20215.5V64c17.7%200%2032-14.3%2032-32S337.7%200%20320%200zm-96%20215.5V64h64v151.5c0%2011.1%202.9%2022.1%208.4%2031.8L306%20320H142l41.6-72.7c5.5-9.7%208.4-20.6%208.4-31.8%22/%3E%3C/svg%3E');--md-admonition-icon--quote:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20448%20512%22%3E%3C%21--%21%20Font%20Awesome%20Free%207.1.0%20by%20%40fontawesome%20-%20https%3A//fontawesome.com%20License%20-%20https%3A//fontawesome.com/license/free%20%28Icons%3A%20CC%20BY%204.0%2C%20Fonts%3A%20SIL%20OFL%201.1%2C%20Code%3A%20MIT%20License%29%20Copyright%202025%20Fonticons%2C%20Inc.--%3E%3Cpath%20d%3D%22M0%20216C0%20149.7%2053.7%2096%20120%2096h8c17.7%200%2032%2014.3%2032%2032s-14.3%2032-32%2032h-8c-30.9%200-56%2025.1-56%2056v8h64c35.3%200%2064%2028.7%2064%2064v64c0%2035.3-28.7%2064-64%2064H64c-35.3%200-64-28.7-64-64zm256%200c0-66.3%2053.7-120%20120-120h8c17.7%200%2032%2014.3%2032%2032s-14.3%2032-32%2032h-8c-30.9%200-56%2025.1-56%2056v8h64c35.3%200%2064%2028.7%2064%2064v64c0%2035.3-28.7%2064-64%2064h-64c-35.3%200-64-28.7-64-64z%22/%3E%3C/svg%3E');}</style><link rel=preconnect href=https://fonts.gstatic.com crossorigin><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback"><style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style><link rel=stylesheet href=../../../../assets/_markdown_exec_pyodide.css><link rel=stylesheet href=../../../../assets/_markdown_exec_ansi.css><link rel=stylesheet href=../../../../css/extra.css><link rel=stylesheet href=../../../../assets/stylesheets/badge.css><link rel=stylesheet href=../../../../termynal.css><script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script><link href=../../../../assets/stylesheets/glightbox.min.css rel=stylesheet><script src=../../../../assets/javascripts/glightbox.min.js></script><style id=glightbox-style>
+            html.glightbox-open { overflow: initial; height: 100%; }
+            .gslide-title { margin-top: 0px; user-select: text; }
+            .gslide-desc { color: #666; user-select: text; }
+            .gslide-image img { background: white; }
+            .gscrollbar-fixer { padding-right: 15px; }
+            .gdesc-inner { font-size: 0.75rem; }
+            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color); }
+            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color); }
+            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color); }
+        </style></head> <body dir=ltr data-md-color-scheme=default data-md-color-primary=grey data-md-color-accent=indigo> <input class=md-toggle data-md-toggle=drawer type=checkbox id=__drawer autocomplete=off> <input class=md-toggle data-md-toggle=search type=checkbox id=__search autocomplete=off> <label class=md-overlay for=__drawer></label> <div data-md-component=skip> <a href=#projeto-de-regressao-bike-sharing-demand class=md-skip> Ir para o conteúdo </a> </div> <div data-md-component=announce> </div> <header class="md-header md-header--shadow" data-md-component=header> <nav class="md-header__inner md-grid" aria-label=Cabeçalho> <a href=../../../.. title="Pedro Toledo Piza Civita - Portfólio" class="md-header__button md-logo" aria-label="Pedro Toledo Piza Civita - Portfólio" data-md-component=logo> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg> </a> <label class="md-header__button md-icon" for=__drawer> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg> </label> <div class=md-header__title data-md-component=header-title> <div class=md-header__ellipsis> <div class=md-header__topic> <span class=md-ellipsis> Pedro Toledo Piza Civita - Portfólio </span> </div> <div class=md-header__topic data-md-component=header-topic> <span class=md-ellipsis> 2. Regression </span> </div> </div> </div> <form class=md-header__option data-md-component=palette> <input class=md-option data-md-color-media data-md-color-scheme=default data-md-color-primary=grey data-md-color-accent=indigo aria-label="Switch to dark mode" type=radio name=__palette id=__palette_0> <label class="md-header__button md-icon" title="Switch to dark mode" for=__palette_1 hidden> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6m0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4M7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3"></path></svg> </label> <input class=md-option data-md-color-media=(prefers-color-scheme) data-md-color-scheme=default data-md-color-primary=grey data-md-color-accent=indigo aria-label="Switch to light mode" type=radio name=__palette id=__palette_1> <label class="md-header__button md-icon" title="Switch to light mode" for=__palette_2 hidden> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3"></path></svg> </label> <input class=md-option data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme=default data-md-color-primary=grey data-md-color-accent=indigo aria-label="Switch to dark mode" type=radio name=__palette id=__palette_2> <label class="md-header__button md-icon" title="Switch to dark mode" for=__palette_3 hidden> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6m0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4M7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3"></path></svg> </label> <input class=md-option data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme=slate data-md-color-primary=grey data-md-color-accent=indigo aria-label="Switch to system preference" type=radio name=__palette id=__palette_3> <label class="md-header__button md-icon" title="Switch to system preference" for=__palette_0 hidden> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3"></path></svg> </label> </form> <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script> <label class="md-header__button md-icon" for=__search> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg> </label> <div class=md-search data-md-component=search role=dialog> <label class=md-search__overlay for=__search></label> <div class=md-search__inner role=search> <form class=md-search__form name=search> <input type=text class=md-search__input name=query aria-label=Buscar placeholder=Buscar autocapitalize=off autocorrect=off autocomplete=off spellcheck=false data-md-component=search-query required> <label class="md-search__icon md-icon" for=__search> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg> </label> <nav class=md-search__options aria-label=Pesquisar> <button type=reset class="md-search__icon md-icon" title=Limpar aria-label=Limpar tabindex=-1> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg> </button> </nav> <div class=md-search__suggest data-md-component=search-suggest></div> </form> <div class=md-search__output> <div class=md-search__scrollwrap tabindex=0 data-md-scrollfix> <div class=md-search-result data-md-component=search-result> <div class=md-search-result__meta> Inicializando a pesquisa </div> <ol class=md-search-result__list role=presentation></ol> </div> </div> </div> </div> </div> <div class=md-header__source> <a href=https://github.com/pedrocivita/pedrocivita.github.io title="Ir ao repositório" class=md-source data-md-component=source> <div class="md-source__icon md-icon"> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 448 512"><!-- Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"></path></svg> </div> <div class=md-source__repository> pedrocivita.github.io </div> </a> </div> </nav> </header> <div class=md-container data-md-component=container> <main class=md-main data-md-component=main> <div class="md-main__inner md-grid"> <div class="md-sidebar md-sidebar--primary" data-md-component=sidebar data-md-type=navigation> <div class=md-sidebar__scrollwrap> <div class=md-sidebar__inner> <nav class="md-nav md-nav--primary" aria-label=Navegação data-md-level=0> <label class=md-nav__title for=__drawer> <a href=../../../.. title="Pedro Toledo Piza Civita - Portfólio" class="md-nav__button md-logo" aria-label="Pedro Toledo Piza Civita - Portfólio" data-md-component=logo> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg> </a> Pedro Toledo Piza Civita - Portfólio </label> <div class=md-nav__source> <a href=https://github.com/pedrocivita/pedrocivita.github.io title="Ir ao repositório" class=md-source data-md-component=source> <div class="md-source__icon md-icon"> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 448 512"><!-- Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"></path></svg> </div> <div class=md-source__repository> pedrocivita.github.io </div> </a> </div> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../.. class=md-nav__link> <span class=md-ellipsis> Home </span> </a> </li> <li class="md-nav__item md-nav__item--active md-nav__item--nested"> <input class="md-nav__toggle md-toggle " type=checkbox id=__nav_2 checked> <label class=md-nav__link for=__nav_2 id=__nav_2_label tabindex=0> <span class=md-ellipsis> Portfólio </span> <span class="md-nav__icon md-icon"></span> </label> <nav class=md-nav data-md-level=1 aria-labelledby=__nav_2_label aria-expanded=true> <label class=md-nav__title for=__nav_2> <span class="md-nav__icon md-icon"></span> Portfólio </label> <ul class=md-nav__list data-md-scrollfix> <li class="md-nav__item md-nav__item--active md-nav__item--nested"> <input class="md-nav__toggle md-toggle " type=checkbox id=__nav_2_1 checked> <label class=md-nav__link for=__nav_2_1 id=__nav_2_1_label tabindex=0> <span class=md-ellipsis> Redes Neurais e Deep Learning </span> <span class="md-nav__icon md-icon"></span> </label> <nav class=md-nav data-md-level=2 aria-labelledby=__nav_2_1_label aria-expanded=true> <label class=md-nav__title for=__nav_2_1> <span class="md-nav__icon md-icon"></span> Redes Neurais e Deep Learning </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../ class=md-nav__link> <span class=md-ellipsis> Introdução </span> </a> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type=checkbox id=__nav_2_1_2> <label class=md-nav__link for=__nav_2_1_2 id=__nav_2_1_2_label tabindex=0> <span class=md-ellipsis> Exercícios </span> <span class="md-nav__icon md-icon"></span> </label> <nav class=md-nav data-md-level=3 aria-labelledby=__nav_2_1_2_label aria-expanded=false> <label class=md-nav__title for=__nav_2_1_2> <span class="md-nav__icon md-icon"></span> Exercícios </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../exercises/1/ class=md-nav__link> <span class=md-ellipsis> 1. Data </span> </a> </li> <li class=md-nav__item> <a href=../../exercises/2/ class=md-nav__link> <span class=md-ellipsis> 2. Perceptron </span> </a> </li> <li class=md-nav__item> <a href=../../exercises/3/ class=md-nav__link> <span class=md-ellipsis> 3. MLP </span> </a> </li> <li class=md-nav__item> <a href=../../exercises/4/ class=md-nav__link> <span class=md-ellipsis> 4. VAE </span> </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--active md-nav__item--nested"> <input class="md-nav__toggle md-toggle " type=checkbox id=__nav_2_1_3 checked> <label class=md-nav__link for=__nav_2_1_3 id=__nav_2_1_3_label tabindex=0> <span class=md-ellipsis> Projetos </span> <span class="md-nav__icon md-icon"></span> </label> <nav class=md-nav data-md-level=3 aria-labelledby=__nav_2_1_3_label aria-expanded=true> <label class=md-nav__title for=__nav_2_1_3> <span class="md-nav__icon md-icon"></span> Projetos </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../1/ class=md-nav__link> <span class=md-ellipsis> 1. Classification </span> </a> </li> <li class="md-nav__item md-nav__item--active"> <input class="md-nav__toggle md-toggle" type=checkbox id=__toc> <label class="md-nav__link md-nav__link--active" for=__toc> <span class=md-ellipsis> 2. Regression </span> <span class="md-nav__icon md-icon"></span> </label> <a href=./ class="md-nav__link md-nav__link--active"> <span class=md-ellipsis> 2. Regression </span> </a> <nav class="md-nav md-nav--secondary" aria-label=Índice> <label class=md-nav__title for=__toc> <span class="md-nav__icon md-icon"></span> Índice </label> <ul class=md-nav__list data-md-component=toc data-md-scrollfix> <li class=md-nav__item> <a href=#objetivo class=md-nav__link> <span class=md-ellipsis> Objetivo </span> </a> </li> <li class=md-nav__item> <a href=#1-selecao-do-dataset class=md-nav__link> <span class=md-ellipsis> 1. Seleção do Dataset </span> </a> <nav class=md-nav aria-label="1. Seleção do Dataset"> <ul class=md-nav__list> <li class=md-nav__item> <a href=#dataset-bike-sharing-demand class=md-nav__link> <span class=md-ellipsis> Dataset: Bike Sharing Demand </span> </a> </li> </ul> </nav> </li> <li class=md-nav__item> <a href=#2-analise-exploratoria class=md-nav__link> <span class=md-ellipsis> 2. Análise Exploratória </span> </a> </li> <li class=md-nav__item> <a href=#3-limpeza-e-normalizacao-dos-dados class=md-nav__link> <span class=md-ellipsis> 3. Limpeza e Normalização dos Dados </span> </a> <nav class=md-nav aria-label="3. Limpeza e Normalização dos Dados"> <ul class=md-nav__list> <li class=md-nav__item> <a href=#estrategia-de-pre-processamento class=md-nav__link> <span class=md-ellipsis> Estratégia de Pré-processamento: </span> </a> </li> </ul> </nav> </li> <li class=md-nav__item> <a href=#4-estrategia-de-divisao-trainvalidationtest class=md-nav__link> <span class=md-ellipsis> 4. Estratégia de Divisão Train/Validation/Test </span> </a> </li> <li class=md-nav__item> <a href=#5-implementacao-do-mlp class=md-nav__link> <span class=md-ellipsis> 5. Implementação do MLP </span> </a> </li> <li class=md-nav__item> <a href=#6-treinamento-do-modelo class=md-nav__link> <span class=md-ellipsis> 6. Treinamento do Modelo </span> </a> </li> <li class=md-nav__item> <a href=#7-curvas-de-erro-e-visualizacoes class=md-nav__link> <span class=md-ellipsis> 7. Curvas de Erro e Visualizações </span> </a> </li> <li class=md-nav__item> <a href=#8-metricas-de-avaliacao class=md-nav__link> <span class=md-ellipsis> 8. Métricas de Avaliação </span> </a> </li> <li class=md-nav__item> <a href=#9-conclusao class=md-nav__link> <span class=md-ellipsis> 9. Conclusão </span> </a> <nav class=md-nav aria-label="9. Conclusão"> <ul class=md-nav__list> <li class=md-nav__item> <a href=#resultados class=md-nav__link> <span class=md-ellipsis> Resultados: </span> </a> </li> <li class=md-nav__item> <a href=#limitacoes class=md-nav__link> <span class=md-ellipsis> Limitações: </span> </a> </li> <li class=md-nav__item> <a href=#melhorias-futuras class=md-nav__link> <span class=md-ellipsis> Melhorias Futuras: </span> </a> </li> <li class=md-nav__item> <a href=#ferramentas-de-ia class=md-nav__link> <span class=md-ellipsis> Ferramentas de IA: </span> </a> </li> <li class=md-nav__item> <a href=#referencias class=md-nav__link> <span class=md-ellipsis> Referências: </span> </a> </li> </ul> </nav> </li> </ul> </nav> </li> <li class=md-nav__item> <a href=../3/ class=md-nav__link> <span class=md-ellipsis> 3. Generative Models </span> </a> </li> </ul> </nav> </li> </ul> </nav> </li> </ul> </nav> </li> </ul> </nav> </div> </div> </div> <div class="md-sidebar md-sidebar--secondary" data-md-component=sidebar data-md-type=toc> <div class=md-sidebar__scrollwrap> <div class=md-sidebar__inner> <nav class="md-nav md-nav--secondary" aria-label=Índice> <label class=md-nav__title for=__toc> <span class="md-nav__icon md-icon"></span> Índice </label> <ul class=md-nav__list data-md-component=toc data-md-scrollfix> <li class=md-nav__item> <a href=#objetivo class=md-nav__link> <span class=md-ellipsis> Objetivo </span> </a> </li> <li class=md-nav__item> <a href=#1-selecao-do-dataset class=md-nav__link> <span class=md-ellipsis> 1. Seleção do Dataset </span> </a> <nav class=md-nav aria-label="1. Seleção do Dataset"> <ul class=md-nav__list> <li class=md-nav__item> <a href=#dataset-bike-sharing-demand class=md-nav__link> <span class=md-ellipsis> Dataset: Bike Sharing Demand </span> </a> </li> </ul> </nav> </li> <li class=md-nav__item> <a href=#2-analise-exploratoria class=md-nav__link> <span class=md-ellipsis> 2. Análise Exploratória </span> </a> </li> <li class=md-nav__item> <a href=#3-limpeza-e-normalizacao-dos-dados class=md-nav__link> <span class=md-ellipsis> 3. Limpeza e Normalização dos Dados </span> </a> <nav class=md-nav aria-label="3. Limpeza e Normalização dos Dados"> <ul class=md-nav__list> <li class=md-nav__item> <a href=#estrategia-de-pre-processamento class=md-nav__link> <span class=md-ellipsis> Estratégia de Pré-processamento: </span> </a> </li> </ul> </nav> </li> <li class=md-nav__item> <a href=#4-estrategia-de-divisao-trainvalidationtest class=md-nav__link> <span class=md-ellipsis> 4. Estratégia de Divisão Train/Validation/Test </span> </a> </li> <li class=md-nav__item> <a href=#5-implementacao-do-mlp class=md-nav__link> <span class=md-ellipsis> 5. Implementação do MLP </span> </a> </li> <li class=md-nav__item> <a href=#6-treinamento-do-modelo class=md-nav__link> <span class=md-ellipsis> 6. Treinamento do Modelo </span> </a> </li> <li class=md-nav__item> <a href=#7-curvas-de-erro-e-visualizacoes class=md-nav__link> <span class=md-ellipsis> 7. Curvas de Erro e Visualizações </span> </a> </li> <li class=md-nav__item> <a href=#8-metricas-de-avaliacao class=md-nav__link> <span class=md-ellipsis> 8. Métricas de Avaliação </span> </a> </li> <li class=md-nav__item> <a href=#9-conclusao class=md-nav__link> <span class=md-ellipsis> 9. Conclusão </span> </a> <nav class=md-nav aria-label="9. Conclusão"> <ul class=md-nav__list> <li class=md-nav__item> <a href=#resultados class=md-nav__link> <span class=md-ellipsis> Resultados: </span> </a> </li> <li class=md-nav__item> <a href=#limitacoes class=md-nav__link> <span class=md-ellipsis> Limitações: </span> </a> </li> <li class=md-nav__item> <a href=#melhorias-futuras class=md-nav__link> <span class=md-ellipsis> Melhorias Futuras: </span> </a> </li> <li class=md-nav__item> <a href=#ferramentas-de-ia class=md-nav__link> <span class=md-ellipsis> Ferramentas de IA: </span> </a> </li> <li class=md-nav__item> <a href=#referencias class=md-nav__link> <span class=md-ellipsis> Referências: </span> </a> </li> </ul> </nav> </li> </ul> </nav> </div> </div> </div> <div class=md-content data-md-component=content> <nav class=md-path aria-label=Navegação> <ol class=md-path__list> <li class=md-path__item> <a href=../../../.. class=md-path__link> <span class=md-ellipsis> Home </span> </a> </li> <li class=md-path__item> <a href=../../ class=md-path__link> <span class=md-ellipsis> Portfólio </span> </a> </li> <li class=md-path__item> <a href=../../ class=md-path__link> <span class=md-ellipsis> Redes Neurais e Deep Learning </span> </a> </li> <li class=md-path__item> <a href=../1/ class=md-path__link> <span class=md-ellipsis> Projetos </span> </a> </li> </ol> </nav> <article class="md-content__inner md-typeset"> <h1 id=projeto-de-regressao-bike-sharing-demand>Projeto de Regressão: Bike Sharing Demand</h1> <p><strong>Grupo:</strong> Caio Boa, Gabriel Hermida e Pedro Civita <strong>Disciplina:</strong> Redes Neurais e Deep Learning <strong>Dataset:</strong> Bike Sharing (UCI ML Repository)</p> <h2 id=objetivo>Objetivo</h2> <p>Implementar um Multi-Layer Perceptron (MLP) para prever a demanda de bicicletas compartilhadas com base em condições climáticas e temporais.</p> <h2 id=1-selecao-do-dataset>1. Seleção do Dataset</h2> <h3 id=dataset-bike-sharing-demand>Dataset: Bike Sharing Demand</h3> <p><strong>Fonte:</strong> <a href=https://archive.ics.uci.edu/ml/datasets/bike+sharing+dataset>UCI ML Repository</a></p> <p><strong>Características:</strong> - <strong>Amostras:</strong> 17,379 registros (horários de 2011-2012) - <strong>Features:</strong> 16 variáveis (clima, tempo, sazonalidade) - <strong>Target:</strong> <code>cnt</code> - contagem total de aluguéis (regressão)</p> <p><strong>Motivação:</strong> - Problema real de otimização urbana - Dataset não-trivial com padrões temporais complexos - Evita datasets clássicos (Boston/California Housing) - Disponível em competição Kaggle (possibilidade de bonus)</p> <pre class=python><code># Imports
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+from datetime import datetime
+import warnings
+warnings.filterwarnings('ignore')
+
+# Configuração
+np.random.seed(42)
+plt.style.use('seaborn-v0_8-darkgrid')
+sns.set_palette("husl")
+
+print("Setup completo!")</code></pre> <div class="language-text highlight"><pre><span></span><code>Setup completo!
+</code></pre></div> <pre class=python><code># Carregar dataset
+df = pd.read_csv('hour.csv')
+
+print(f"Shape: {df.shape}")
+print(f"\nPrimeiras linhas:")
+df.head()</code></pre> <div class="language-text highlight"><pre><span></span><code>Shape: (17379, 17)
+
+Primeiras linhas:
+</code></pre></div> <div> <style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style> <table border=1 class=dataframe> <thead> <tr style="text-align: right;"> <th></th> <th>instant</th> <th>dteday</th> <th>season</th> <th>yr</th> <th>mnth</th> <th>hr</th> <th>holiday</th> <th>weekday</th> <th>workingday</th> <th>weathersit</th> <th>temp</th> <th>atemp</th> <th>hum</th> <th>windspeed</th> <th>casual</th> <th>registered</th> <th>cnt</th> </tr> </thead> <tbody> <tr> <th>0</th> <td>1</td> <td>2011-01-01</td> <td>1</td> <td>0</td> <td>1</td> <td>0</td> <td>0</td> <td>6</td> <td>0</td> <td>1</td> <td>0.24</td> <td>0.2879</td> <td>0.81</td> <td>0.0</td> <td>3</td> <td>13</td> <td>16</td> </tr> <tr> <th>1</th> <td>2</td> <td>2011-01-01</td> <td>1</td> <td>0</td> <td>1</td> <td>1</td> <td>0</td> <td>6</td> <td>0</td> <td>1</td> <td>0.22</td> <td>0.2727</td> <td>0.80</td> <td>0.0</td> <td>8</td> <td>32</td> <td>40</td> </tr> <tr> <th>2</th> <td>3</td> <td>2011-01-01</td> <td>1</td> <td>0</td> <td>1</td> <td>2</td> <td>0</td> <td>6</td> <td>0</td> <td>1</td> <td>0.22</td> <td>0.2727</td> <td>0.80</td> <td>0.0</td> <td>5</td> <td>27</td> <td>32</td> </tr> <tr> <th>3</th> <td>4</td> <td>2011-01-01</td> <td>1</td> <td>0</td> <td>1</td> <td>3</td> <td>0</td> <td>6</td> <td>0</td> <td>1</td> <td>0.24</td> <td>0.2879</td> <td>0.75</td> <td>0.0</td> <td>3</td> <td>10</td> <td>13</td> </tr> <tr> <th>4</th> <td>5</td> <td>2011-01-01</td> <td>1</td> <td>0</td> <td>1</td> <td>4</td> <td>0</td> <td>6</td> <td>0</td> <td>1</td> <td>0.24</td> <td>0.2879</td> <td>0.75</td> <td>0.0</td> <td>0</td> <td>1</td> <td>1</td> </tr> </tbody> </table> </div> <pre class=python><code># Informações do dataset
+print("Informações Gerais:")
+print("="*70)
+df.info()
+
+print("\n" + "="*70)
+print("Estatísticas Descritivas:")
+print("="*70)
+df.describe()</code></pre> <div class="language-text highlight"><pre><span></span><code>Informações Gerais:
+======================================================================
+&lt;class 'pandas.core.frame.DataFrame'&gt;
+RangeIndex: 17379 entries, 0 to 17378
+Data columns (total 17 columns):
+ #   Column      Non-Null Count  Dtype  
+---  ------      --------------  -----  
+ 0   instant     17379 non-null  int64  
+ 1   dteday      17379 non-null  object 
+ 2   season      17379 non-null  int64  
+ 3   yr          17379 non-null  int64  
+ 4   mnth        17379 non-null  int64  
+ 5   hr          17379 non-null  int64  
+ 6   holiday     17379 non-null  int64  
+ 7   weekday     17379 non-null  int64  
+ 8   workingday  17379 non-null  int64  
+ 9   weathersit  17379 non-null  int64  
+ 10  temp        17379 non-null  float64
+ 11  atemp       17379 non-null  float64
+ 12  hum         17379 non-null  float64
+ 13  windspeed   17379 non-null  float64
+ 14  casual      17379 non-null  int64  
+ 15  registered  17379 non-null  int64  
+ 16  cnt         17379 non-null  int64  
+dtypes: float64(4), int64(12), object(1)
+memory usage: 2.3+ MB
+
+======================================================================
+Estatísticas Descritivas:
+======================================================================
+</code></pre></div> <div> <style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style> <table border=1 class=dataframe> <thead> <tr style="text-align: right;"> <th></th> <th>instant</th> <th>season</th> <th>yr</th> <th>mnth</th> <th>hr</th> <th>holiday</th> <th>weekday</th> <th>workingday</th> <th>weathersit</th> <th>temp</th> <th>atemp</th> <th>hum</th> <th>windspeed</th> <th>casual</th> <th>registered</th> <th>cnt</th> </tr> </thead> <tbody> <tr> <th>count</th> <td>17379.0000</td> <td>17379.000000</td> <td>17379.000000</td> <td>17379.000000</td> <td>17379.000000</td> <td>17379.000000</td> <td>17379.000000</td> <td>17379.000000</td> <td>17379.000000</td> <td>17379.000000</td> <td>17379.000000</td> <td>17379.000000</td> <td>17379.000000</td> <td>17379.000000</td> <td>17379.000000</td> <td>17379.000000</td> </tr> <tr> <th>mean</th> <td>8690.0000</td> <td>2.501640</td> <td>0.502561</td> <td>6.537775</td> <td>11.546752</td> <td>0.028770</td> <td>3.003683</td> <td>0.682721</td> <td>1.425283</td> <td>0.496987</td> <td>0.475775</td> <td>0.627229</td> <td>0.190098</td> <td>35.676218</td> <td>153.786869</td> <td>189.463088</td> </tr> <tr> <th>std</th> <td>5017.0295</td> <td>1.106918</td> <td>0.500008</td> <td>3.438776</td> <td>6.914405</td> <td>0.167165</td> <td>2.005771</td> <td>0.465431</td> <td>0.639357</td> <td>0.192556</td> <td>0.171850</td> <td>0.192930</td> <td>0.122340</td> <td>49.305030</td> <td>151.357286</td> <td>181.387599</td> </tr> <tr> <th>min</th> <td>1.0000</td> <td>1.000000</td> <td>0.000000</td> <td>1.000000</td> <td>0.000000</td> <td>0.000000</td> <td>0.000000</td> <td>0.000000</td> <td>1.000000</td> <td>0.020000</td> <td>0.000000</td> <td>0.000000</td> <td>0.000000</td> <td>0.000000</td> <td>0.000000</td> <td>1.000000</td> </tr> <tr> <th>25%</th> <td>4345.5000</td> <td>2.000000</td> <td>0.000000</td> <td>4.000000</td> <td>6.000000</td> <td>0.000000</td> <td>1.000000</td> <td>0.000000</td> <td>1.000000</td> <td>0.340000</td> <td>0.333300</td> <td>0.480000</td> <td>0.104500</td> <td>4.000000</td> <td>34.000000</td> <td>40.000000</td> </tr> <tr> <th>50%</th> <td>8690.0000</td> <td>3.000000</td> <td>1.000000</td> <td>7.000000</td> <td>12.000000</td> <td>0.000000</td> <td>3.000000</td> <td>1.000000</td> <td>1.000000</td> <td>0.500000</td> <td>0.484800</td> <td>0.630000</td> <td>0.194000</td> <td>17.000000</td> <td>115.000000</td> <td>142.000000</td> </tr> <tr> <th>75%</th> <td>13034.5000</td> <td>3.000000</td> <td>1.000000</td> <td>10.000000</td> <td>18.000000</td> <td>0.000000</td> <td>5.000000</td> <td>1.000000</td> <td>2.000000</td> <td>0.660000</td> <td>0.621200</td> <td>0.780000</td> <td>0.253700</td> <td>48.000000</td> <td>220.000000</td> <td>281.000000</td> </tr> <tr> <th>max</th> <td>17379.0000</td> <td>4.000000</td> <td>1.000000</td> <td>12.000000</td> <td>23.000000</td> <td>1.000000</td> <td>6.000000</td> <td>1.000000</td> <td>4.000000</td> <td>1.000000</td> <td>1.000000</td> <td>1.000000</td> <td>0.850700</td> <td>367.000000</td> <td>886.000000</td> <td>977.000000</td> </tr> </tbody> </table> </div> <h2 id=2-analise-exploratoria>2. Análise Exploratória</h2> <p>Análise inicial para entender padrões e relações nos dados.</p> <pre class=python><code># Verificar valores ausentes
+print("Valores Ausentes:")
+print(df.isnull().sum())
+
+# Análise da variável target
+print(f"\nTarget (cnt) - Estatísticas:")
+print(f"  Média: {df['cnt'].mean():.2f}")
+print(f"  Mediana: {df['cnt'].median():.2f}")
+print(f"  Desvio padrão: {df['cnt'].std():.2f}")
+print(f"  Min: {df['cnt'].min()}")
+print(f"  Max: {df['cnt'].max()}")</code></pre> <div class="language-text highlight"><pre><span></span><code>Valores Ausentes:
+instant       0
+dteday        0
+season        0
+yr            0
+mnth          0
+hr            0
+holiday       0
+weekday       0
+workingday    0
+weathersit    0
+temp          0
+atemp         0
+hum           0
+windspeed     0
+casual        0
+registered    0
+cnt           0
+dtype: int64
+
+Target (cnt) - Estatísticas:
+  Média: 189.46
+  Mediana: 142.00
+  Desvio padrão: 181.39
+  Min: 1
+  Max: 977
+</code></pre></div> <pre class=python><code># Visualizações exploratórias
+fig, axes = plt.subplots(2, 2, figsize=(14, 10))
+
+# Distribuição do target
+axes[0,0].hist(df['cnt'], bins=50, edgecolor='black', alpha=0.7)
+axes[0,0].set_title('Distribuição da Demanda')
+axes[0,0].set_xlabel('Número de aluguéis')
+axes[0,0].set_ylabel('Frequência')
+axes[0,0].grid(True, alpha=0.3)
+
+# Demanda por hora
+hourly = df.groupby('hr')['cnt'].mean()
+axes[0,1].plot(hourly.index, hourly.values, marker='o', linewidth=2)
+axes[0,1].set_title('Demanda Média por Hora')
+axes[0,1].set_xlabel('Hora do dia')
+axes[0,1].set_ylabel('Aluguéis médios')
+axes[0,1].grid(True, alpha=0.3)
+
+# Temperatura vs Demanda
+axes[1,0].scatter(df['temp'], df['cnt'], alpha=0.3, s=10)
+axes[1,0].set_title('Temperatura vs Demanda')
+axes[1,0].set_xlabel('Temperatura normalizada')
+axes[1,0].set_ylabel('Aluguéis')
+axes[1,0].grid(True, alpha=0.3)
+
+# Correlação
+corr_cols = ['temp', 'atemp', 'hum', 'windspeed', 'cnt']
+corr = df[corr_cols].corr()
+sns.heatmap(corr, annot=True, fmt='.2f', cmap='coolwarm', center=0,
+            ax=axes[1,1], square=True, linewidths=1)
+axes[1,1].set_title('Matriz de Correlação')
+
+plt.tight_layout()
+plt.show()</code></pre> <p><a class=glightbox data-type=image data-width=auto data-height=auto href=index_files/index_7_0.png data-desc-position=bottom><img alt=png src=index_files/index_7_0.png></a></p> <h2 id=3-limpeza-e-normalizacao-dos-dados>3. Limpeza e Normalização dos Dados</h2> <h3 id=estrategia-de-pre-processamento>Estratégia de Pré-processamento:</h3> <ol> <li><strong>Remoção de features:</strong> <code>instant</code>, <code>dteday</code>, <code>casual</code>, <code>registered</code> (evitar data leakage)</li> <li><strong>Feature engineering:</strong> Transformação cíclica para variáveis temporais (sin/cos)</li> <li><strong>Normalização:</strong> Z-score standardization (média=0, std=1)</li> </ol> <pre class=python><code># Preparar dados
+df_prep = df.copy()
+
+# Remover colunas
+drop_cols = ['instant', 'dteday', 'casual', 'registered']
+df_prep = df_prep.drop(columns=drop_cols)
+
+print(f"Colunas removidas: {drop_cols}")
+print(f"Shape após remoção: {df_prep.shape}")</code></pre> <div class="language-text highlight"><pre><span></span><code>Colunas removidas: ['instant', 'dteday', 'casual', 'registered']
+Shape após remoção: (17379, 13)
+</code></pre></div> <pre class=python><code># Feature engineering: variáveis cíclicas
+# Hora, mês e dia da semana são cíclicos (ex: hora 23 próxima de hora 0)
+def encode_cyclical(data, col, max_val):
+    data[col + '_sin'] = np.sin(2 * np.pi * data[col] / max_val)
+    data[col + '_cos'] = np.cos(2 * np.pi * data[col] / max_val)
+    return data
+
+df_prep = encode_cyclical(df_prep, 'hr', 24)
+df_prep = encode_cyclical(df_prep, 'mnth', 12)
+df_prep = encode_cyclical(df_prep, 'weekday', 7)
+
+# Remover originais
+df_prep = df_prep.drop(columns=['hr', 'mnth', 'weekday'])
+
+print(f"Features cíclicas criadas!")
+print(f"Shape final: {df_prep.shape}")
+print(f"\nFeatures: {list(df_prep.columns)}")</code></pre> <div class="language-text highlight"><pre><span></span><code>Features cíclicas criadas!
+Shape final: (17379, 16)
+
+Features: ['season', 'yr', 'holiday', 'workingday', 'weathersit', 'temp', 'atemp', 'hum', 'windspeed', 'cnt', 'hr_sin', 'hr_cos', 'mnth_sin', 'mnth_cos', 'weekday_sin', 'weekday_cos']
+</code></pre></div> <pre class=python><code># Separar X e y
+X = df_prep.drop(columns=['cnt']).values
+y = df_prep['cnt'].values.reshape(-1, 1)
+
+print(f"X shape: {X.shape}")
+print(f"y shape: {y.shape}")
+
+# Salvar estatísticas para desnormalização posterior
+X_mean = X.mean(axis=0)
+X_std = X.std(axis=0)
+y_mean = y.mean()
+y_std = y.std()
+
+# Normalizar (z-score)
+X_norm = (X - X_mean) / (X_std + 1e-8)
+y_norm = (y - y_mean) / y_std
+
+print(f"\nApós normalização:")
+print(f"X: média={X_norm.mean():.3f}, std={X_norm.std():.3f}")
+print(f"y: média={y_norm.mean():.3f}, std={y_norm.std():.3f}")</code></pre> <div class="language-text highlight"><pre><span></span><code>X shape: (17379, 15)
+y shape: (17379, 1)
+
+Após normalização:
+X: média=0.000, std=1.000
+y: média=-0.000, std=1.000
+</code></pre></div> <h2 id=4-estrategia-de-divisao-trainvalidationtest>4. Estratégia de Divisão Train/Validation/Test</h2> <p><strong>Divisão:</strong> 70% treino / 15% validação / 15% teste</p> <p><strong>Modo de treinamento:</strong> Mini-batch gradient descent (batch_size=64)</p> <p><strong>Justificativa:</strong> - 70% treino: volume suficiente para aprendizado - 15% validação: monitorar overfitting e early stopping - 15% teste: avaliação final imparcial - Mini-batch: equilíbrio entre velocidade e estabilidade</p> <pre class=python><code># Dividir dados
+n_samples = X_norm.shape[0]
+indices = np.arange(n_samples)
+np.random.shuffle(indices)
+
+# Calcular tamanhos
+train_size = int(0.70 * n_samples)
+val_size = int(0.15 * n_samples)
+test_size = n_samples - train_size - val_size
+
+# Dividir índices
+train_idx = indices[:train_size]
+val_idx = indices[train_size:train_size + val_size]
+test_idx = indices[train_size + val_size:]
+
+# Criar conjuntos
+X_train, y_train = X_norm[train_idx], y_norm[train_idx]
+X_val, y_val = X_norm[val_idx], y_norm[val_idx]
+X_test, y_test = X_norm[test_idx], y_norm[test_idx]
+
+print(f"Divisão dos dados:")
+print(f"  Train: {len(X_train):,} ({len(X_train)/n_samples*100:.1f}%)")
+print(f"  Val:   {len(X_val):,} ({len(X_val)/n_samples*100:.1f}%)")
+print(f"  Test:  {len(X_test):,} ({len(X_test)/n_samples*100:.1f}%)")</code></pre> <div class="language-text highlight"><pre><span></span><code>Divisão dos dados:
+  Train: 12,165 (70.0%)
+  Val:   2,606 (15.0%)
+  Test:  2,608 (15.0%)
+</code></pre></div> <h2 id=5-implementacao-do-mlp>5. Implementação do MLP</h2> <p><strong>Arquitetura:</strong> Input(15) → Hidden(64, ReLU) → Hidden(32, ReLU) → Hidden(16, ReLU) → Output(1, Linear)</p> <p><strong>Componentes:</strong> - <strong>Inicialização:</strong> He initialization - <strong>Ativação:</strong> ReLU (camadas ocultas), Linear (saída) - <strong>Loss:</strong> MSE + Regularização L2 - <strong>Otimização:</strong> Mini-batch gradient descent - <strong>Regularização:</strong> Early stopping + L2</p> <pre class=python><code>class MLP:
+    """Multi-Layer Perceptron para Regressão"""
+
+    def __init__(self, layers, learning_rate=0.001, reg_lambda=0.001):
+        self.lr = learning_rate
+        self.reg = reg_lambda
+        self.weights = []
+        self.biases = []
+
+        # He initialization
+        for i in range(len(layers) - 1):
+            W = np.random.randn(layers[i], layers[i+1]) * np.sqrt(2.0 / layers[i])
+            b = np.zeros((1, layers[i+1]))
+            self.weights.append(W)
+            self.biases.append(b)
+
+        self.train_losses = []
+        self.val_losses = []
+
+    def relu(self, x):
+        return np.maximum(0, x)
+
+    def relu_derivative(self, x):
+        return (x &gt; 0).astype(float)
+
+    def forward(self, X):
+        """Forward propagation"""
+        self.cache = {'A': [X], 'Z': []}
+        A = X
+
+        # Hidden layers
+        for i in range(len(self.weights) - 1):
+            Z = A @ self.weights[i] + self.biases[i]
+            A = self.relu(Z)
+            self.cache['Z'].append(Z)
+            self.cache['A'].append(A)
+
+        # Output layer (linear)
+        Z = A @ self.weights[-1] + self.biases[-1]
+        self.cache['Z'].append(Z)
+        self.cache['A'].append(Z)
+
+        return Z
+
+    def compute_loss(self, y_true, y_pred):
+        """MSE + L2 regularization"""
+        n = len(y_true)
+        mse = np.mean((y_pred - y_true) ** 2)
+        l2 = sum(np.sum(W ** 2) for W in self.weights)
+        return mse + (self.reg / (2 * n)) * l2
+
+    def backward(self, y_true):
+        """Backpropagation"""
+        n = len(y_true)
+        y_pred = self.cache['A'][-1]
+        dA = (2.0 / n) * (y_pred - y_true)
+
+        grads_W = []
+        grads_b = []
+
+        for i in reversed(range(len(self.weights))):
+            A_prev = self.cache['A'][i]
+
+            dW = A_prev.T @ dA + (self.reg / n) * self.weights[i]
+            db = np.sum(dA, axis=0, keepdims=True)
+
+            grads_W.insert(0, dW)
+            grads_b.insert(0, db)
+
+            if i &gt; 0:
+                dA = (dA @ self.weights[i].T) * self.relu_derivative(self.cache['Z'][i-1])
+
+        # Update weights
+        for i in range(len(self.weights)):
+            self.weights[i] -= self.lr * grads_W[i]
+            self.biases[i] -= self.lr * grads_b[i]
+
+    def fit(self, X_train, y_train, X_val, y_val, epochs=200, batch_size=64, patience=15, verbose=True):
+        """Treinar modelo com early stopping"""
+        best_loss = float('inf')
+        patience_count = 0
+
+        for epoch in range(epochs):
+            # Mini-batch training
+            indices = np.arange(len(X_train))
+            np.random.shuffle(indices)
+
+            for start in range(0, len(X_train), batch_size):
+                end = min(start + batch_size, len(X_train))
+                batch_idx = indices[start:end]
+
+                X_batch = X_train[batch_idx]
+                y_batch = y_train[batch_idx]
+
+                self.forward(X_batch)
+                self.backward(y_batch)
+
+            # Calcular losses
+            train_pred = self.forward(X_train)
+            val_pred = self.forward(X_val)
+
+            train_loss = self.compute_loss(y_train, train_pred)
+            val_loss = self.compute_loss(y_val, val_pred)
+
+            self.train_losses.append(train_loss)
+            self.val_losses.append(val_loss)
+
+            # Early stopping
+            if val_loss &lt; best_loss:
+                best_loss = val_loss
+                patience_count = 0
+                self.best_weights = [W.copy() for W in self.weights]
+                self.best_biases = [b.copy() for b in self.biases]
+            else:
+                patience_count += 1
+
+            if verbose and (epoch + 1) % 20 == 0:
+                print(f"Época {epoch+1:3d}/{epochs} | Train: {train_loss:.4f} | Val: {val_loss:.4f}")
+
+            if patience_count &gt;= patience:
+                if verbose:
+                    print(f"\nEarly stopping! Melhor val loss: {best_loss:.4f}")
+                break
+
+        # Restaurar melhores pesos
+        self.weights = self.best_weights
+        self.biases = self.best_biases
+
+    def predict(self, X):
+        """Fazer predições"""
+        A = X
+        for i in range(len(self.weights) - 1):
+            A = self.relu(A @ self.weights[i] + self.biases[i])
+        return A @ self.weights[-1] + self.biases[-1]
+
+print("MLP implementado!")</code></pre> <div class="language-text highlight"><pre><span></span><code>MLP implementado!
+</code></pre></div> <h2 id=6-treinamento-do-modelo>6. Treinamento do Modelo</h2> <pre class=python><code># Criar e treinar modelo
+model = MLP(
+    layers=[15, 64, 32, 16, 1],
+    learning_rate=0.001,
+    reg_lambda=0.001
+)
+
+print("Iniciando treinamento...\n")
+model.fit(X_train, y_train, X_val, y_val, epochs=200, batch_size=64, patience=15)
+print("\nTreinamento concluído!")</code></pre> <div class="language-text highlight"><pre><span></span><code>Iniciando treinamento...
+
+Época  20/200 | Train: 0.3770 | Val: 0.4228
+Época  40/200 | Train: 0.2984 | Val: 0.3333
+Época  60/200 | Train: 0.2369 | Val: 0.2631
+Época  80/200 | Train: 0.1905 | Val: 0.2114
+Época 100/200 | Train: 0.1620 | Val: 0.1811
+Época 120/200 | Train: 0.1443 | Val: 0.1618
+Época 140/200 | Train: 0.1343 | Val: 0.1538
+Época 160/200 | Train: 0.1233 | Val: 0.1414
+Época 180/200 | Train: 0.1158 | Val: 0.1359
+Época 200/200 | Train: 0.1083 | Val: 0.1279
+
+Treinamento concluído!
+</code></pre></div> <h2 id=7-curvas-de-erro-e-visualizacoes>7. Curvas de Erro e Visualizações</h2> <pre class=python><code># Plot curvas de loss
+plt.figure(figsize=(10, 5))
+epochs = range(1, len(model.train_losses) + 1)
+
+plt.plot(epochs, model.train_losses, label='Train Loss', linewidth=2)
+plt.plot(epochs, model.val_losses, label='Validation Loss', linewidth=2)
+plt.xlabel('Época')
+plt.ylabel('Loss (MSE + L2)')
+plt.title('Convergência do Modelo')
+plt.legend()
+plt.grid(True, alpha=0.3)
+plt.tight_layout()
+plt.show()
+
+print(f"Épocas treinadas: {len(model.train_losses)}")
+print(f"Loss final - Train: {model.train_losses[-1]:.4f} | Val: {model.val_losses[-1]:.4f}")</code></pre> <p><a class=glightbox data-type=image data-width=auto data-height=auto href=index_files/index_19_0.png data-desc-position=bottom><img alt=png src=index_files/index_19_0.png></a></p> <div class="language-text highlight"><pre><span></span><code>Épocas treinadas: 200
+Loss final - Train: 0.1083 | Val: 0.1279
+</code></pre></div> <h2 id=8-metricas-de-avaliacao>8. Métricas de Avaliação</h2> <p>Métricas obrigatórias para regressão: MAE, MAPE, MSE, RMSE, R²</p> <pre class=python><code># Função para calcular métricas
+def calc_metrics(y_true, y_pred):
+    y_true = y_true.flatten()
+    y_pred = y_pred.flatten()
+
+    mae = np.mean(np.abs(y_true - y_pred))
+    mse = np.mean((y_true - y_pred) ** 2)
+    rmse = np.sqrt(mse)
+
+    ss_res = np.sum((y_true - y_pred) ** 2)
+    ss_tot = np.sum((y_true - y_true.mean()) ** 2)
+    r2 = 1 - (ss_res / ss_tot)
+
+    # MAPE (evitar divisão por zero)
+    mask = y_true != 0
+    mape = np.mean(np.abs((y_true[mask] - y_pred[mask]) / y_true[mask])) * 100
+
+    return {'MAE': mae, 'MSE': mse, 'RMSE': rmse, 'R2': r2, 'MAPE': mape}
+
+# Fazer predições e desnormalizar
+y_pred_test_norm = model.predict(X_test)
+y_pred_test = y_pred_test_norm * y_std + y_mean
+y_true_test = y_test * y_std + y_mean
+
+y_pred_train_norm = model.predict(X_train)
+y_pred_train = y_pred_train_norm * y_std + y_mean
+y_true_train = y_train * y_std + y_mean
+
+# Calcular métricas
+train_metrics = calc_metrics(y_true_train, y_pred_train)
+test_metrics = calc_metrics(y_true_test, y_pred_test)
+
+# Baseline (preditor de média)
+baseline_pred = np.full_like(y_true_test, y_true_train.mean())
+baseline_metrics = calc_metrics(y_true_test, baseline_pred)
+
+# Exibir resultados
+print("MÉTRICAS DE AVALIAÇÃO")
+print("="*70)
+print(f"{'Métrica':&lt;10} {'Train':&lt;15} {'Test':&lt;15} {'Baseline':&lt;15}")
+print("-"*70)
+print(f"{'MAE':&lt;10} {train_metrics['MAE']:&lt;15.2f} {test_metrics['MAE']:&lt;15.2f} {baseline_metrics['MAE']:&lt;15.2f}")
+print(f"{'MSE':&lt;10} {train_metrics['MSE']:&lt;15.2f} {test_metrics['MSE']:&lt;15.2f} {baseline_metrics['MSE']:&lt;15.2f}")
+print(f"{'RMSE':&lt;10} {train_metrics['RMSE']:&lt;15.2f} {test_metrics['RMSE']:&lt;15.2f} {baseline_metrics['RMSE']:&lt;15.2f}")
+print(f"{'R²':&lt;10} {train_metrics['R2']:&lt;15.4f} {test_metrics['R2']:&lt;15.4f} {baseline_metrics['R2']:&lt;15.4f}")
+print(f"{'MAPE (%)':&lt;10} {train_metrics['MAPE']:&lt;15.2f} {test_metrics['MAPE']:&lt;15.2f} {baseline_metrics['MAPE']:&lt;15.2f}")
+print("="*70)
+
+melhoria = ((baseline_metrics['RMSE'] - test_metrics['RMSE']) / baseline_metrics['RMSE'] * 100)
+print(f"\nMelhoria sobre baseline: {melhoria:.1f}%")</code></pre> <div class="language-text highlight"><pre><span></span><code>MÉTRICAS DE AVALIAÇÃO
+======================================================================
+Métrica    Train           Test            Baseline       
+----------------------------------------------------------------------
+MAE        42.95           44.83           143.29         
+MSE        3562.55         4024.64         33800.49       
+RMSE       59.69           63.44           183.85         
+R²         0.8894          0.8809          -0.0000        
+MAPE (%)   103.73          101.15          796.90         
+======================================================================
+
+Melhoria sobre baseline: 65.5%
+</code></pre></div> <pre class=python><code># Visualizações de avaliação
+fig, axes = plt.subplots(1, 3, figsize=(16, 5))
+
+# Predito vs Real
+axes[0].scatter(y_true_test, y_pred_test, alpha=0.4, s=15)
+lim = [y_true_test.min(), y_true_test.max()]
+axes[0].plot(lim, lim, 'r--', linewidth=2, label='Predição perfeita')
+axes[0].set_xlabel('Valor Real')
+axes[0].set_ylabel('Valor Predito')
+axes[0].set_title(f'Predições vs Real\nR² = {test_metrics["R2"]:.4f}')
+axes[0].legend()
+axes[0].grid(True, alpha=0.3)
+
+# Resíduos
+residuals = (y_true_test - y_pred_test).flatten()
+axes[1].scatter(y_pred_test, residuals, alpha=0.4, s=15)
+axes[1].axhline(0, color='r', linestyle='--', linewidth=2)
+axes[1].set_xlabel('Valor Predito')
+axes[1].set_ylabel('Resíduo (Real - Predito)')
+axes[1].set_title('Análise de Resíduos')
+axes[1].grid(True, alpha=0.3)
+
+# Distribuição dos resíduos
+axes[2].hist(residuals, bins=50, edgecolor='black', alpha=0.7)
+axes[2].axvline(0, color='r', linestyle='--', linewidth=2, label='Zero')
+axes[2].axvline(residuals.mean(), color='g', linestyle='--', linewidth=2, label=f'Média: {residuals.mean():.1f}')
+axes[2].set_xlabel('Resíduo')
+axes[2].set_ylabel('Frequência')
+axes[2].set_title('Distribuição dos Resíduos')
+axes[2].legend()
+axes[2].grid(True, alpha=0.3)
+
+plt.tight_layout()
+plt.show()
+
+print(f"Estatísticas dos resíduos:")
+print(f"  Média: {residuals.mean():.2f} (ideal: ~0)")
+print(f"  Std: {residuals.std():.2f}")
+print(f"  Mediana do erro absoluto: {np.median(np.abs(residuals)):.2f}")</code></pre> <p><a class=glightbox data-type=image data-width=auto data-height=auto href=index_files/index_22_0.png data-desc-position=bottom><img alt=png src=index_files/index_22_0.png></a></p> <div class="language-text highlight"><pre><span></span><code>Estatísticas dos resíduos:
+  Média: -1.37 (ideal: ~0)
+  Std: 63.43
+  Mediana do erro absoluto: 31.89
+</code></pre></div> <h2 id=9-conclusao>9. Conclusão</h2> <h3 id=resultados>Resultados:</h3> <ul> <li><strong>R² = 0.8809</strong>: Modelo explica ~88.1% da variância</li> <li><strong>RMSE = 63.44</strong>: Erro médio de ~63 aluguéis</li> <li><strong>Melhoria sobre baseline</strong>: 65.5%</li> </ul> <h3 id=limitacoes>Limitações:</h3> <ul> <li>MLP não captura dependências temporais de longo prazo</li> <li>Features podem ser expandidas (lags, interações)</li> <li>Hiperparâmetros não foram otimizados sistematicamente</li> </ul> <h3 id=melhorias-futuras>Melhorias Futuras:</h3> <ul> <li>Arquiteturas recorrentes (LSTM/GRU) para séries temporais</li> <li>Feature engineering mais sofisticado</li> <li>Ensemble com outros modelos (XGBoost, Random Forest)</li> <li>Grid search para otimização de hiperparâmetros</li> </ul> <h3 id=ferramentas-de-ia>Ferramentas de IA:</h3> <p>Claude foi usado para auxiliar na estruturação do código. Todo o código foi compreendido e validado manualmente, célula por célula.</p> <h3 id=referencias>Referências:</h3> <ul> <li>Dataset: Fanaee-T &amp; Gama (2013), UCI ML Repository</li> <li>Implementação: NumPy, conceitos de Goodfellow et al. (Deep Learning, 2016)</li> <li>Material do curso: https://insper.github.io/ann-dl/</li> </ul> <aside class=md-source-file> <span class=md-source-file__fact> <span class=md-icon title="Última atualização"> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"></path></svg> </span> <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-datetime" title="15 de dezembro de 2025 08:06:54 UTC">15 de dezembro de 2025 08:06:54</span> </span> <span class=md-source-file__fact> <span class=md-icon title=Criada> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M14.47 15.08 11 13V7h1.5v5.25l3.08 1.83c-.41.28-.79.62-1.11 1m-1.39 4.84c-.36.05-.71.08-1.08.08-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8c0 .37-.03.72-.08 1.08.69.1 1.33.32 1.92.64.1-.56.16-1.13.16-1.72 0-5.5-4.5-10-10-10S2 6.5 2 12s4.47 10 10 10c.59 0 1.16-.06 1.72-.16-.32-.59-.54-1.23-.64-1.92M18 15v3h-3v2h3v3h2v-3h3v-2h-3v-3z"></path></svg> </span> <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-datetime" title="15 de dezembro de 2025 08:06:54 UTC">15 de dezembro de 2025 08:06:54</span> </span> <span class=md-source-file__fact> <span class=md-icon title=Colaboradores> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M12 4a4 4 0 0 1 4 4 4 4 0 0 1-4 4 4 4 0 0 1-4-4 4 4 0 0 1 4-4m0 10c4.42 0 8 1.79 8 4v2H4v-2c0-2.21 3.58-4 8-4"></path></svg> </span> <nav> <a href=mailto:67804009+pedrocivita@users.noreply.github.com>Pedro Civita</a> </nav> </span> <span class=md-source-file__fact> <span class=md-icon title=Colaboradores> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33s1.71.11 2.5.33c1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2"></path></svg> </span> <span>GitHub</span> <nav> <a href=https://github.com/apps/copilot-swe-agent class=md-author title=@Copilot> <img src="https://avatars.githubusercontent.com/in/1143301?v=4&size=72" alt=Copilot> </a> </nav> </span> </aside> </article> </div> <script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script> </div> <button type=button class="md-top md-icon" data-md-component=top hidden> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"></path></svg> Voltar ao topo </button> </main> <footer class=md-footer> <div class="md-footer-meta md-typeset"> <div class="md-footer-meta__inner md-grid"> <div class=md-copyright> Made with <a href=https://squidfunk.github.io/mkdocs-material/ target=_blank rel=noopener> Material for MkDocs </a> </div> <div class=md-social> <a href=https://github.com/pedrocivita target=_blank rel=noopener title=GitHub class=md-social__link> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 512 512"><!-- Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"></path></svg> </a> <a href=mailto:pedrotpc@al.insper.edu.br target=_blank rel=noopener title=E-mail class=md-social__link> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 512 512"><!-- Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M48 64C21.5 64 0 85.5 0 112c0 15.1 7.1 29.3 19.2 38.4l208 156a48 48 0 0 0 57.6 0l208-156c12.1-9.1 19.2-23.3 19.2-38.4 0-26.5-21.5-48-48-48zM0 196v188c0 35.3 28.7 64 64 64h384c35.3 0 64-28.7 64-64V196L313.6 344.8c-34.1 25.6-81.1 25.6-115.2 0z"></path></svg> </a> </div> </div> </div> </footer> </div> <div class=md-dialog data-md-component=dialog> <div class="md-dialog__inner md-typeset"></div> </div> <div class=md-progress data-md-component=progress role=progressbar></div> <script id=__config type=application/json>{"annotate": null, "base": "../../../..", "features": ["content.code.copy", "content.code.select", "content.code.annotate", "content.tooltips", "navigation.instant", "navigation.instant.progress", "navigation.top", "navigation.path", "navigation.tracking", "navigation.expand", "search.suggest", "search.highlight"], "search": "../../../../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado para \u00e1rea de transfer\u00eancia", "clipboard.copy": "Copiar para \u00e1rea de transfer\u00eancia", "search.result.more.one": "Mais 1 nesta p\u00e1gina", "search.result.more.other": "Mais # nesta p\u00e1gina", "search.result.none": "Nenhum resultado encontrado", "search.result.one": "1 resultado encontrado", "search.result.other": "# resultados encontrados", "search.result.placeholder": "Digite para iniciar a busca", "search.result.term.missing": "Ausente", "select.version": "Selecione a vers\u00e3o"}, "version": null}</script> <script src=../../../../assets/javascripts/bundle.e71a0d61.min.js></script> <script src=../../../../assets/_markdown_exec_pyodide.js></script> <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script> <script src=https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js></script> <script src=https://fastly.jsdelivr.net/npm/jquery/dist/jquery.min.js></script> <script src=https://fastly.jsdelivr.net/npm/echarts/dist/echarts.min.js></script> <script src=https://unpkg.com/mermaid@10/dist/mermaid.min.js></script> <script src=../../../../js/mermaid-init.js></script> <script src=../../../../assets/javascripts/badge.js async></script> <script src=../../../../termynal.js></script> <script id=init-glightbox>const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(()=>{ lightbox.reload(); });
+</script></body></html>

@@ -1,0 +1,523 @@
+<!DOCTYPE html><html lang=pt class=no-js><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=author content="Pedro Toledo Piza Civita"><link href=https://pedrocivita.github.io/portfolio/neural-networks/exercises/4/ rel=canonical><link href=../3/ rel=prev><link href=../../projects/1/ rel=next><link rel=icon href=../../../../assets/images/favicon.png><meta name=generator content="mkdocs-1.6.1, mkdocs-material-9.7.0"><title>4. VAE - Pedro Toledo Piza Civita - Portfólio</title><link rel=stylesheet href=../../../../assets/stylesheets/main.618322db.min.css><link rel=stylesheet href=../../../../assets/stylesheets/palette.ab4e12ef.min.css><style>:root{--md-admonition-icon--note:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20448%20512%22%3E%3C%21--%21%20Font%20Awesome%20Free%207.1.0%20by%20%40fontawesome%20-%20https%3A//fontawesome.com%20License%20-%20https%3A//fontawesome.com/license/free%20%28Icons%3A%20CC%20BY%204.0%2C%20Fonts%3A%20SIL%20OFL%201.1%2C%20Code%3A%20MIT%20License%29%20Copyright%202025%20Fonticons%2C%20Inc.--%3E%3Cpath%20d%3D%22M64%20480c-35.3%200-64-28.7-64-64V96c0-35.3%2028.7-64%2064-64h320c35.3%200%2064%2028.7%2064%2064v213.5c0%2017-6.7%2033.3-18.7%2045.3L322.7%20461.3c-12%2012-28.3%2018.7-45.3%2018.7zm325.5-176H296c-13.3%200-24%2010.7-24%2024v93.5z%22/%3E%3C/svg%3E');--md-admonition-icon--abstract:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20448%20512%22%3E%3C%21--%21%20Font%20Awesome%20Free%207.1.0%20by%20%40fontawesome%20-%20https%3A//fontawesome.com%20License%20-%20https%3A//fontawesome.com/license/free%20%28Icons%3A%20CC%20BY%204.0%2C%20Fonts%3A%20SIL%20OFL%201.1%2C%20Code%3A%20MIT%20License%29%20Copyright%202025%20Fonticons%2C%20Inc.--%3E%3Cpath%20d%3D%22M384%20512H96c-53%200-96-43-96-96V96C0%2043%2043%200%2096%200h304c26.5%200%2048%2021.5%2048%2048v288c0%2020.9-13.4%2038.7-32%2045.3V448c17.7%200%2032%2014.3%2032%2032s-14.3%2032-32%2032zM96%20384c-17.7%200-32%2014.3-32%2032s14.3%2032%2032%2032h256v-64zm32-232c0%2013.3%2010.7%2024%2024%2024h176c13.3%200%2024-10.7%2024-24s-10.7-24-24-24H152c-13.3%200-24%2010.7-24%2024m24%2072c-13.3%200-24%2010.7-24%2024s10.7%2024%2024%2024h176c13.3%200%2024-10.7%2024-24s-10.7-24-24-24z%22/%3E%3C/svg%3E');--md-admonition-icon--info:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20512%20512%22%3E%3C%21--%21%20Font%20Awesome%20Free%207.1.0%20by%20%40fontawesome%20-%20https%3A//fontawesome.com%20License%20-%20https%3A//fontawesome.com/license/free%20%28Icons%3A%20CC%20BY%204.0%2C%20Fonts%3A%20SIL%20OFL%201.1%2C%20Code%3A%20MIT%20License%29%20Copyright%202025%20Fonticons%2C%20Inc.--%3E%3Cpath%20d%3D%22M256%20512a256%20256%200%201%200%200-512%20256%20256%200%201%200%200%20512m-32-352a32%2032%200%201%201%2064%200%2032%2032%200%201%201-64%200m-8%2064h48c13.3%200%2024%2010.7%2024%2024v88h8c13.3%200%2024%2010.7%2024%2024s-10.7%2024-24%2024h-80c-13.3%200-24-10.7-24-24s10.7-24%2024-24h24v-64h-24c-13.3%200-24-10.7-24-24s10.7-24%2024-24%22/%3E%3C/svg%3E');--md-admonition-icon--tip:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20512%20512%22%3E%3C%21--%21%20Font%20Awesome%20Free%207.1.0%20by%20%40fontawesome%20-%20https%3A//fontawesome.com%20License%20-%20https%3A//fontawesome.com/license/free%20%28Icons%3A%20CC%20BY%204.0%2C%20Fonts%3A%20SIL%20OFL%201.1%2C%20Code%3A%20MIT%20License%29%20Copyright%202025%20Fonticons%2C%20Inc.--%3E%3Cpath%20d%3D%22M461.2%2018.9C472.7%2024%20480%2035.4%20480%2048v416c0%2012.6-7.3%2024-18.8%2029.1s-24.8%203.2-34.3-5.1l-46.6-40.7c-43.6-38.1-98.7-60.3-156.4-63V480c0%2017.7-14.3%2032-32%2032h-32c-17.7%200-32-14.3-32-32v-96C57.3%20384%200%20326.7%200%20256s57.3-128%20128-128h84.5c61.8-.2%20121.4-22.7%20167.9-63.3L427%2024c9.4-8.3%2022.9-10.2%2034.3-5.1zM224%20320v.2c70.3%202.7%20137.8%2028.5%20192%2073.4V118.3c-54.2%2044.9-121.7%2070.7-192%2073.4z%22/%3E%3C/svg%3E');--md-admonition-icon--success:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20448%20512%22%3E%3C%21--%21%20Font%20Awesome%20Free%207.1.0%20by%20%40fontawesome%20-%20https%3A//fontawesome.com%20License%20-%20https%3A//fontawesome.com/license/free%20%28Icons%3A%20CC%20BY%204.0%2C%20Fonts%3A%20SIL%20OFL%201.1%2C%20Code%3A%20MIT%20License%29%20Copyright%202025%20Fonticons%2C%20Inc.--%3E%3Cpath%20d%3D%22M434.8%2070.1c14.3%2010.4%2017.5%2030.4%207.1%2044.7l-256%20352c-5.5%207.6-14%2012.3-23.4%2013.1s-18.5-2.7-25.1-9.3l-128-128c-12.5-12.5-12.5-32.8%200-45.3s32.8-12.5%2045.3%200l101.5%20101.5%20234-321.7c10.4-14.3%2030.4-17.5%2044.7-7.1z%22/%3E%3C/svg%3E');--md-admonition-icon--question:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20512%20512%22%3E%3C%21--%21%20Font%20Awesome%20Free%207.1.0%20by%20%40fontawesome%20-%20https%3A//fontawesome.com%20License%20-%20https%3A//fontawesome.com/license/free%20%28Icons%3A%20CC%20BY%204.0%2C%20Fonts%3A%20SIL%20OFL%201.1%2C%20Code%3A%20MIT%20License%29%20Copyright%202025%20Fonticons%2C%20Inc.--%3E%3Cpath%20d%3D%22M256%20512a256%20256%200%201%200%200-512%20256%20256%200%201%200%200%20512m0-336c-17.7%200-32%2014.3-32%2032%200%2013.3-10.7%2024-24%2024s-24-10.7-24-24c0-44.2%2035.8-80%2080-80s80%2035.8%2080%2080c0%2047.2-36%2067.2-56%2074.5v3.8c0%2013.3-10.7%2024-24%2024s-24-10.7-24-24v-8.1c0-20.5%2014.8-35.2%2030.1-40.2%206.4-2.1%2013.2-5.5%2018.2-10.3%204.3-4.2%207.7-10%207.7-19.6%200-17.7-14.3-32-32-32zm-32%20192a32%2032%200%201%201%2064%200%2032%2032%200%201%201-64%200%22/%3E%3C/svg%3E');--md-admonition-icon--warning:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20512%20512%22%3E%3C%21--%21%20Font%20Awesome%20Free%207.1.0%20by%20%40fontawesome%20-%20https%3A//fontawesome.com%20License%20-%20https%3A//fontawesome.com/license/free%20%28Icons%3A%20CC%20BY%204.0%2C%20Fonts%3A%20SIL%20OFL%201.1%2C%20Code%3A%20MIT%20License%29%20Copyright%202025%20Fonticons%2C%20Inc.--%3E%3Cpath%20d%3D%22M256%200c14.7%200%2028.2%208.1%2035.2%2021l216%20400c6.7%2012.4%206.4%2027.4-.8%2039.5S486.1%20480%20472%20480H40c-14.1%200-27.2-7.4-34.4-19.5s-7.5-27.1-.8-39.5l216-400c7-12.9%2020.5-21%2035.2-21m0%20352a32%2032%200%201%200%200%2064%2032%2032%200%201%200%200-64m0-192c-18.2%200-32.7%2015.5-31.4%2033.7l7.4%20104c.9%2012.5%2011.4%2022.3%2023.9%2022.3%2012.6%200%2023-9.7%2023.9-22.3l7.4-104c1.3-18.2-13.1-33.7-31.4-33.7z%22/%3E%3C/svg%3E');--md-admonition-icon--failure:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20576%20512%22%3E%3C%21--%21%20Font%20Awesome%20Free%207.1.0%20by%20%40fontawesome%20-%20https%3A//fontawesome.com%20License%20-%20https%3A//fontawesome.com/license/free%20%28Icons%3A%20CC%20BY%204.0%2C%20Fonts%3A%20SIL%20OFL%201.1%2C%20Code%3A%20MIT%20License%29%20Copyright%202025%20Fonticons%2C%20Inc.--%3E%3Cpath%20d%3D%22M480-16c6.9%200%2013%204.4%2015.2%2010.9l13.5%2040.4%2040.4%2013.5C555.6%2051%20560%2057.1%20560%2064s-4.4%2013-10.9%2015.2l-40.4%2013.5-13.5%2040.4c-2.2%206.5-8.3%2010.9-15.2%2010.9s-13-4.4-15.2-10.9l-13.5-40.4-40.4-13.5C404.4%2077%20400%2070.9%20400%2064s4.4-13%2010.9-15.2l40.4-13.5%2013.5-40.4C467-11.6%20473.1-16%20480-16M321.4%2097.4c12.5-12.5%2032.8-12.5%2045.3%200l80%2080c12.5%2012.5%2012.5%2032.8%200%2045.3l-10.9%2010.9c7.9%2022%2012.2%2045.7%2012.2%2070.5%200%20114.9-93.1%20208-208%20208S32%20418.9%2032%20304%20125.1%2096%20240%2096c24.7%200%2048.5%204.3%2070.5%2012.3zM144%20304c0-53%2043-96%2096-96%2013.3%200%2024-10.7%2024-24s-10.7-24-24-24c-79.5%200-144%2064.5-144%20144%200%2013.3%2010.7%2024%2024%2024s24-10.7%2024-24%22/%3E%3C/svg%3E');--md-admonition-icon--danger:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20512%20512%22%3E%3C%21--%21%20Font%20Awesome%20Free%207.1.0%20by%20%40fontawesome%20-%20https%3A//fontawesome.com%20License%20-%20https%3A//fontawesome.com/license/free%20%28Icons%3A%20CC%20BY%204.0%2C%20Fonts%3A%20SIL%20OFL%201.1%2C%20Code%3A%20MIT%20License%29%20Copyright%202025%20Fonticons%2C%20Inc.--%3E%3Cpath%20d%3D%22M416%20427.4c58.5-44%2096-111.6%2096-187.4C512%20107.5%20397.4%200%20256%200S0%20107.5%200%20240c0%2075.8%2037.5%20143.4%2096%20187.4V464c0%2026.5%2021.5%2048%2048%2048h32v-40c0-13.3%2010.7-24%2024-24s24%2010.7%2024%2024v40h64v-40c0-13.3%2010.7-24%2024-24s24%2010.7%2024%2024v40h32c26.5%200%2048-21.5%2048-48zM96%20256a64%2064%200%201%201%20128%200%2064%2064%200%201%201-128%200m256-64a64%2064%200%201%201%200%20128%2064%2064%200%201%201%200-128%22/%3E%3C/svg%3E');--md-admonition-icon--bug:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20640%20512%22%3E%3C%21--%21%20Font%20Awesome%20Free%207.1.0%20by%20%40fontawesome%20-%20https%3A//fontawesome.com%20License%20-%20https%3A//fontawesome.com/license/free%20%28Icons%3A%20CC%20BY%204.0%2C%20Fonts%3A%20SIL%20OFL%201.1%2C%20Code%3A%20MIT%20License%29%20Copyright%202025%20Fonticons%2C%20Inc.--%3E%3Cpath%20d%3D%22M352%200c0-17.7-14.3-32-32-32s-32%2014.3-32%2032v64h-96c-53%200-96%2043-96%2096v224c0%2053%2043%2096%2096%2096h256c53%200%2096-43%2096-96V160c0-53-43-96-96-96h-96zM160%20368c0-13.3%2010.7-24%2024-24h32c13.3%200%2024%2010.7%2024%2024s-10.7%2024-24%2024h-32c-13.3%200-24-10.7-24-24m120%200c0-13.3%2010.7-24%2024-24h32c13.3%200%2024%2010.7%2024%2024s-10.7%2024-24%2024h-32c-13.3%200-24-10.7-24-24m120%200c0-13.3%2010.7-24%2024-24h32c13.3%200%2024%2010.7%2024%2024s-10.7%2024-24%2024h-32c-13.3%200-24-10.7-24-24M224%20176a48%2048%200%201%201%200%2096%2048%2048%200%201%201%200-96m144%2048a48%2048%200%201%201%2096%200%2048%2048%200%201%201-96%200m-304%200c0-17.7-14.3-32-32-32S0%20206.3%200%20224v96c0%2017.7%2014.3%2032%2032%2032s32-14.3%2032-32zm544-32c-17.7%200-32%2014.3-32%2032v96c0%2017.7%2014.3%2032%2032%2032s32-14.3%2032-32v-96c0-17.7-14.3-32-32-32%22/%3E%3C/svg%3E');--md-admonition-icon--example:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20448%20512%22%3E%3C%21--%21%20Font%20Awesome%20Free%207.1.0%20by%20%40fontawesome%20-%20https%3A//fontawesome.com%20License%20-%20https%3A//fontawesome.com/license/free%20%28Icons%3A%20CC%20BY%204.0%2C%20Fonts%3A%20SIL%20OFL%201.1%2C%20Code%3A%20MIT%20License%29%20Copyright%202025%20Fonticons%2C%20Inc.--%3E%3Cpath%20d%3D%22M288%200H128c-17.7%200-32%2014.3-32%2032s14.3%2032%2032%2032v151.5L7.5%20426.3C2.6%20435%200%20444.7%200%20454.7%200%20486.4%2025.6%20512%2057.3%20512h333.4c31.6%200%2057.3-25.6%2057.3-57.3%200-10-2.6-19.8-7.5-28.4L320%20215.5V64c17.7%200%2032-14.3%2032-32S337.7%200%20320%200zm-96%20215.5V64h64v151.5c0%2011.1%202.9%2022.1%208.4%2031.8L306%20320H142l41.6-72.7c5.5-9.7%208.4-20.6%208.4-31.8%22/%3E%3C/svg%3E');--md-admonition-icon--quote:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20448%20512%22%3E%3C%21--%21%20Font%20Awesome%20Free%207.1.0%20by%20%40fontawesome%20-%20https%3A//fontawesome.com%20License%20-%20https%3A//fontawesome.com/license/free%20%28Icons%3A%20CC%20BY%204.0%2C%20Fonts%3A%20SIL%20OFL%201.1%2C%20Code%3A%20MIT%20License%29%20Copyright%202025%20Fonticons%2C%20Inc.--%3E%3Cpath%20d%3D%22M0%20216C0%20149.7%2053.7%2096%20120%2096h8c17.7%200%2032%2014.3%2032%2032s-14.3%2032-32%2032h-8c-30.9%200-56%2025.1-56%2056v8h64c35.3%200%2064%2028.7%2064%2064v64c0%2035.3-28.7%2064-64%2064H64c-35.3%200-64-28.7-64-64zm256%200c0-66.3%2053.7-120%20120-120h8c17.7%200%2032%2014.3%2032%2032s-14.3%2032-32%2032h-8c-30.9%200-56%2025.1-56%2056v8h64c35.3%200%2064%2028.7%2064%2064v64c0%2035.3-28.7%2064-64%2064h-64c-35.3%200-64-28.7-64-64z%22/%3E%3C/svg%3E');}</style><link rel=preconnect href=https://fonts.gstatic.com crossorigin><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback"><style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style><link rel=stylesheet href=../../../../assets/_markdown_exec_pyodide.css><link rel=stylesheet href=../../../../assets/_markdown_exec_ansi.css><link rel=stylesheet href=../../../../css/extra.css><link rel=stylesheet href=../../../../assets/stylesheets/badge.css><link rel=stylesheet href=../../../../termynal.css><script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script><link href=../../../../assets/stylesheets/glightbox.min.css rel=stylesheet><script src=../../../../assets/javascripts/glightbox.min.js></script><style id=glightbox-style>
+            html.glightbox-open { overflow: initial; height: 100%; }
+            .gslide-title { margin-top: 0px; user-select: text; }
+            .gslide-desc { color: #666; user-select: text; }
+            .gslide-image img { background: white; }
+            .gscrollbar-fixer { padding-right: 15px; }
+            .gdesc-inner { font-size: 0.75rem; }
+            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color); }
+            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color); }
+            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color); }
+        </style></head> <body dir=ltr data-md-color-scheme=default data-md-color-primary=grey data-md-color-accent=indigo> <input class=md-toggle data-md-toggle=drawer type=checkbox id=__drawer autocomplete=off> <input class=md-toggle data-md-toggle=search type=checkbox id=__search autocomplete=off> <label class=md-overlay for=__drawer></label> <div data-md-component=skip> <a href=#exercicio-4-variational-autoencoder-vae class=md-skip> Ir para o conteúdo </a> </div> <div data-md-component=announce> </div> <header class="md-header md-header--shadow" data-md-component=header> <nav class="md-header__inner md-grid" aria-label=Cabeçalho> <a href=../../../.. title="Pedro Toledo Piza Civita - Portfólio" class="md-header__button md-logo" aria-label="Pedro Toledo Piza Civita - Portfólio" data-md-component=logo> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg> </a> <label class="md-header__button md-icon" for=__drawer> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg> </label> <div class=md-header__title data-md-component=header-title> <div class=md-header__ellipsis> <div class=md-header__topic> <span class=md-ellipsis> Pedro Toledo Piza Civita - Portfólio </span> </div> <div class=md-header__topic data-md-component=header-topic> <span class=md-ellipsis> 4. VAE </span> </div> </div> </div> <form class=md-header__option data-md-component=palette> <input class=md-option data-md-color-media data-md-color-scheme=default data-md-color-primary=grey data-md-color-accent=indigo aria-label="Switch to dark mode" type=radio name=__palette id=__palette_0> <label class="md-header__button md-icon" title="Switch to dark mode" for=__palette_1 hidden> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6m0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4M7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3"></path></svg> </label> <input class=md-option data-md-color-media=(prefers-color-scheme) data-md-color-scheme=default data-md-color-primary=grey data-md-color-accent=indigo aria-label="Switch to light mode" type=radio name=__palette id=__palette_1> <label class="md-header__button md-icon" title="Switch to light mode" for=__palette_2 hidden> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3"></path></svg> </label> <input class=md-option data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme=default data-md-color-primary=grey data-md-color-accent=indigo aria-label="Switch to dark mode" type=radio name=__palette id=__palette_2> <label class="md-header__button md-icon" title="Switch to dark mode" for=__palette_3 hidden> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6m0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4M7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3"></path></svg> </label> <input class=md-option data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme=slate data-md-color-primary=grey data-md-color-accent=indigo aria-label="Switch to system preference" type=radio name=__palette id=__palette_3> <label class="md-header__button md-icon" title="Switch to system preference" for=__palette_0 hidden> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3"></path></svg> </label> </form> <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script> <label class="md-header__button md-icon" for=__search> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg> </label> <div class=md-search data-md-component=search role=dialog> <label class=md-search__overlay for=__search></label> <div class=md-search__inner role=search> <form class=md-search__form name=search> <input type=text class=md-search__input name=query aria-label=Buscar placeholder=Buscar autocapitalize=off autocorrect=off autocomplete=off spellcheck=false data-md-component=search-query required> <label class="md-search__icon md-icon" for=__search> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg> </label> <nav class=md-search__options aria-label=Pesquisar> <button type=reset class="md-search__icon md-icon" title=Limpar aria-label=Limpar tabindex=-1> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg> </button> </nav> <div class=md-search__suggest data-md-component=search-suggest></div> </form> <div class=md-search__output> <div class=md-search__scrollwrap tabindex=0 data-md-scrollfix> <div class=md-search-result data-md-component=search-result> <div class=md-search-result__meta> Inicializando a pesquisa </div> <ol class=md-search-result__list role=presentation></ol> </div> </div> </div> </div> </div> <div class=md-header__source> <a href=https://github.com/pedrocivita/pedrocivita.github.io title="Ir ao repositório" class=md-source data-md-component=source> <div class="md-source__icon md-icon"> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 448 512"><!-- Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"></path></svg> </div> <div class=md-source__repository> pedrocivita.github.io </div> </a> </div> </nav> </header> <div class=md-container data-md-component=container> <main class=md-main data-md-component=main> <div class="md-main__inner md-grid"> <div class="md-sidebar md-sidebar--primary" data-md-component=sidebar data-md-type=navigation> <div class=md-sidebar__scrollwrap> <div class=md-sidebar__inner> <nav class="md-nav md-nav--primary" aria-label=Navegação data-md-level=0> <label class=md-nav__title for=__drawer> <a href=../../../.. title="Pedro Toledo Piza Civita - Portfólio" class="md-nav__button md-logo" aria-label="Pedro Toledo Piza Civita - Portfólio" data-md-component=logo> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg> </a> Pedro Toledo Piza Civita - Portfólio </label> <div class=md-nav__source> <a href=https://github.com/pedrocivita/pedrocivita.github.io title="Ir ao repositório" class=md-source data-md-component=source> <div class="md-source__icon md-icon"> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 448 512"><!-- Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"></path></svg> </div> <div class=md-source__repository> pedrocivita.github.io </div> </a> </div> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../.. class=md-nav__link> <span class=md-ellipsis> Home </span> </a> </li> <li class="md-nav__item md-nav__item--active md-nav__item--nested"> <input class="md-nav__toggle md-toggle " type=checkbox id=__nav_2 checked> <label class=md-nav__link for=__nav_2 id=__nav_2_label tabindex=0> <span class=md-ellipsis> Portfólio </span> <span class="md-nav__icon md-icon"></span> </label> <nav class=md-nav data-md-level=1 aria-labelledby=__nav_2_label aria-expanded=true> <label class=md-nav__title for=__nav_2> <span class="md-nav__icon md-icon"></span> Portfólio </label> <ul class=md-nav__list data-md-scrollfix> <li class="md-nav__item md-nav__item--active md-nav__item--nested"> <input class="md-nav__toggle md-toggle " type=checkbox id=__nav_2_1 checked> <label class=md-nav__link for=__nav_2_1 id=__nav_2_1_label tabindex=0> <span class=md-ellipsis> Redes Neurais e Deep Learning </span> <span class="md-nav__icon md-icon"></span> </label> <nav class=md-nav data-md-level=2 aria-labelledby=__nav_2_1_label aria-expanded=true> <label class=md-nav__title for=__nav_2_1> <span class="md-nav__icon md-icon"></span> Redes Neurais e Deep Learning </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../ class=md-nav__link> <span class=md-ellipsis> Introdução </span> </a> </li> <li class="md-nav__item md-nav__item--active md-nav__item--nested"> <input class="md-nav__toggle md-toggle " type=checkbox id=__nav_2_1_2 checked> <label class=md-nav__link for=__nav_2_1_2 id=__nav_2_1_2_label tabindex=0> <span class=md-ellipsis> Exercícios </span> <span class="md-nav__icon md-icon"></span> </label> <nav class=md-nav data-md-level=3 aria-labelledby=__nav_2_1_2_label aria-expanded=true> <label class=md-nav__title for=__nav_2_1_2> <span class="md-nav__icon md-icon"></span> Exercícios </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../1/ class=md-nav__link> <span class=md-ellipsis> 1. Data </span> </a> </li> <li class=md-nav__item> <a href=../2/ class=md-nav__link> <span class=md-ellipsis> 2. Perceptron </span> </a> </li> <li class=md-nav__item> <a href=../3/ class=md-nav__link> <span class=md-ellipsis> 3. MLP </span> </a> </li> <li class="md-nav__item md-nav__item--active"> <input class="md-nav__toggle md-toggle" type=checkbox id=__toc> <label class="md-nav__link md-nav__link--active" for=__toc> <span class=md-ellipsis> 4. VAE </span> <span class="md-nav__icon md-icon"></span> </label> <a href=./ class="md-nav__link md-nav__link--active"> <span class=md-ellipsis> 4. VAE </span> </a> <nav class="md-nav md-nav--secondary" aria-label=Índice> <label class=md-nav__title for=__toc> <span class="md-nav__icon md-icon"></span> Índice </label> <ul class=md-nav__list data-md-component=toc data-md-scrollfix> <li class=md-nav__item> <a href=#o-que-e-um-vae class=md-nav__link> <span class=md-ellipsis> O que é um VAE? </span> </a> </li> <li class=md-nav__item> <a href=#instalacao-de-dependencias class=md-nav__link> <span class=md-ellipsis> Instalação de Dependências </span> </a> <nav class=md-nav aria-label="Instalação de Dependências"> <ul class=md-nav__list> <li class=md-nav__item> <a href=#por-que-numpy-puro class=md-nav__link> <span class=md-ellipsis> Por que NumPy Puro? </span> </a> </li> </ul> </nav> </li> <li class=md-nav__item> <a href=#configuracao-do-projeto class=md-nav__link> <span class=md-ellipsis> Configuração do Projeto </span> </a> </li> <li class=md-nav__item> <a href=#passo-1-preparacao-dos-dados class=md-nav__link> <span class=md-ellipsis> Passo 1: Preparação dos Dados </span> </a> </li> <li class=md-nav__item> <a href=#passo-2-implementacao-do-vae class=md-nav__link> <span class=md-ellipsis> Passo 2: Implementação do VAE </span> </a> </li> <li class=md-nav__item> <a href=#passo-3-funcoes-de-treinamento class=md-nav__link> <span class=md-ellipsis> Passo 3: Funções de Treinamento </span> </a> <nav class=md-nav aria-label="Passo 3: Funções de Treinamento"> <ul class=md-nav__list> <li class=md-nav__item> <a href=#analise-das-curvas class=md-nav__link> <span class=md-ellipsis> Análise das Curvas </span> </a> </li> </ul> </nav> </li> <li class=md-nav__item> <a href=#passo-4-avaliacao-reconstrucoes class=md-nav__link> <span class=md-ellipsis> Passo 4: Avaliação - Reconstruções </span> </a> </li> <li class=md-nav__item> <a href=#passo-5-visualizacao-do-espaco-latente class=md-nav__link> <span class=md-ellipsis> Passo 5: Visualização do Espaço Latente </span> </a> <nav class=md-nav aria-label="Passo 5: Visualização do Espaço Latente"> <ul class=md-nav__list> <li class=md-nav__item> <a href=#analise-do-espaco-latente class=md-nav__link> <span class=md-ellipsis> Análise do Espaço Latente </span> </a> </li> </ul> </nav> </li> <li class=md-nav__item> <a href=#passo-6-geracao-de-amostras class=md-nav__link> <span class=md-ellipsis> Passo 6: Geração de Amostras </span> </a> <nav class=md-nav aria-label="Passo 6: Geração de Amostras"> <ul class=md-nav__list> <li class=md-nav__item> <a href=#exploracao-sistematica-do-espaco-latente class=md-nav__link> <span class=md-ellipsis> Exploração Sistemática do Espaço Latente </span> </a> </li> <li class=md-nav__item> <a href=#interpolacao-linear class=md-nav__link> <span class=md-ellipsis> Interpolação Linear </span> </a> </li> </ul> </nav> </li> <li class=md-nav__item> <a href=#passo-7-comparacao-de-dimensoes-latentes class=md-nav__link> <span class=md-ellipsis> Passo 7: Comparação de Dimensões Latentes </span> </a> <nav class=md-nav aria-label="Passo 7: Comparação de Dimensões Latentes"> <ul class=md-nav__list> <li class=md-nav__item> <a href=#analise-comparativa class=md-nav__link> <span class=md-ellipsis> Análise Comparativa </span> </a> </li> </ul> </nav> </li> <li class=md-nav__item> <a href=#relatorio-final class=md-nav__link> <span class=md-ellipsis> Relatório Final </span> </a> <nav class=md-nav aria-label="Relatório Final"> <ul class=md-nav__list> <li class=md-nav__item> <a href=#resumo class=md-nav__link> <span class=md-ellipsis> Resumo </span> </a> </li> <li class=md-nav__item> <a href=#resultados class=md-nav__link> <span class=md-ellipsis> Resultados </span> </a> </li> <li class=md-nav__item> <a href=#desafios class=md-nav__link> <span class=md-ellipsis> Desafios </span> </a> </li> <li class=md-nav__item> <a href=#insights class=md-nav__link> <span class=md-ellipsis> Insights </span> </a> </li> <li class=md-nav__item> <a href=#melhorias-possiveis class=md-nav__link> <span class=md-ellipsis> Melhorias Possíveis </span> </a> </li> <li class=md-nav__item> <a href=#conclusao class=md-nav__link> <span class=md-ellipsis> Conclusão </span> </a> </li> <li class=md-nav__item> <a href=#referencias class=md-nav__link> <span class=md-ellipsis> Referências </span> </a> </li> </ul> </nav> </li> </ul> </nav> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type=checkbox id=__nav_2_1_3> <label class=md-nav__link for=__nav_2_1_3 id=__nav_2_1_3_label tabindex=0> <span class=md-ellipsis> Projetos </span> <span class="md-nav__icon md-icon"></span> </label> <nav class=md-nav data-md-level=3 aria-labelledby=__nav_2_1_3_label aria-expanded=false> <label class=md-nav__title for=__nav_2_1_3> <span class="md-nav__icon md-icon"></span> Projetos </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../projects/1/ class=md-nav__link> <span class=md-ellipsis> 1. Classification </span> </a> </li> <li class=md-nav__item> <a href=../../projects/2/ class=md-nav__link> <span class=md-ellipsis> 2. Regression </span> </a> </li> <li class=md-nav__item> <a href=../../projects/3/ class=md-nav__link> <span class=md-ellipsis> 3. Generative Models </span> </a> </li> </ul> </nav> </li> </ul> </nav> </li> </ul> </nav> </li> </ul> </nav> </div> </div> </div> <div class="md-sidebar md-sidebar--secondary" data-md-component=sidebar data-md-type=toc> <div class=md-sidebar__scrollwrap> <div class=md-sidebar__inner> <nav class="md-nav md-nav--secondary" aria-label=Índice> <label class=md-nav__title for=__toc> <span class="md-nav__icon md-icon"></span> Índice </label> <ul class=md-nav__list data-md-component=toc data-md-scrollfix> <li class=md-nav__item> <a href=#o-que-e-um-vae class=md-nav__link> <span class=md-ellipsis> O que é um VAE? </span> </a> </li> <li class=md-nav__item> <a href=#instalacao-de-dependencias class=md-nav__link> <span class=md-ellipsis> Instalação de Dependências </span> </a> <nav class=md-nav aria-label="Instalação de Dependências"> <ul class=md-nav__list> <li class=md-nav__item> <a href=#por-que-numpy-puro class=md-nav__link> <span class=md-ellipsis> Por que NumPy Puro? </span> </a> </li> </ul> </nav> </li> <li class=md-nav__item> <a href=#configuracao-do-projeto class=md-nav__link> <span class=md-ellipsis> Configuração do Projeto </span> </a> </li> <li class=md-nav__item> <a href=#passo-1-preparacao-dos-dados class=md-nav__link> <span class=md-ellipsis> Passo 1: Preparação dos Dados </span> </a> </li> <li class=md-nav__item> <a href=#passo-2-implementacao-do-vae class=md-nav__link> <span class=md-ellipsis> Passo 2: Implementação do VAE </span> </a> </li> <li class=md-nav__item> <a href=#passo-3-funcoes-de-treinamento class=md-nav__link> <span class=md-ellipsis> Passo 3: Funções de Treinamento </span> </a> <nav class=md-nav aria-label="Passo 3: Funções de Treinamento"> <ul class=md-nav__list> <li class=md-nav__item> <a href=#analise-das-curvas class=md-nav__link> <span class=md-ellipsis> Análise das Curvas </span> </a> </li> </ul> </nav> </li> <li class=md-nav__item> <a href=#passo-4-avaliacao-reconstrucoes class=md-nav__link> <span class=md-ellipsis> Passo 4: Avaliação - Reconstruções </span> </a> </li> <li class=md-nav__item> <a href=#passo-5-visualizacao-do-espaco-latente class=md-nav__link> <span class=md-ellipsis> Passo 5: Visualização do Espaço Latente </span> </a> <nav class=md-nav aria-label="Passo 5: Visualização do Espaço Latente"> <ul class=md-nav__list> <li class=md-nav__item> <a href=#analise-do-espaco-latente class=md-nav__link> <span class=md-ellipsis> Análise do Espaço Latente </span> </a> </li> </ul> </nav> </li> <li class=md-nav__item> <a href=#passo-6-geracao-de-amostras class=md-nav__link> <span class=md-ellipsis> Passo 6: Geração de Amostras </span> </a> <nav class=md-nav aria-label="Passo 6: Geração de Amostras"> <ul class=md-nav__list> <li class=md-nav__item> <a href=#exploracao-sistematica-do-espaco-latente class=md-nav__link> <span class=md-ellipsis> Exploração Sistemática do Espaço Latente </span> </a> </li> <li class=md-nav__item> <a href=#interpolacao-linear class=md-nav__link> <span class=md-ellipsis> Interpolação Linear </span> </a> </li> </ul> </nav> </li> <li class=md-nav__item> <a href=#passo-7-comparacao-de-dimensoes-latentes class=md-nav__link> <span class=md-ellipsis> Passo 7: Comparação de Dimensões Latentes </span> </a> <nav class=md-nav aria-label="Passo 7: Comparação de Dimensões Latentes"> <ul class=md-nav__list> <li class=md-nav__item> <a href=#analise-comparativa class=md-nav__link> <span class=md-ellipsis> Análise Comparativa </span> </a> </li> </ul> </nav> </li> <li class=md-nav__item> <a href=#relatorio-final class=md-nav__link> <span class=md-ellipsis> Relatório Final </span> </a> <nav class=md-nav aria-label="Relatório Final"> <ul class=md-nav__list> <li class=md-nav__item> <a href=#resumo class=md-nav__link> <span class=md-ellipsis> Resumo </span> </a> </li> <li class=md-nav__item> <a href=#resultados class=md-nav__link> <span class=md-ellipsis> Resultados </span> </a> </li> <li class=md-nav__item> <a href=#desafios class=md-nav__link> <span class=md-ellipsis> Desafios </span> </a> </li> <li class=md-nav__item> <a href=#insights class=md-nav__link> <span class=md-ellipsis> Insights </span> </a> </li> <li class=md-nav__item> <a href=#melhorias-possiveis class=md-nav__link> <span class=md-ellipsis> Melhorias Possíveis </span> </a> </li> <li class=md-nav__item> <a href=#conclusao class=md-nav__link> <span class=md-ellipsis> Conclusão </span> </a> </li> <li class=md-nav__item> <a href=#referencias class=md-nav__link> <span class=md-ellipsis> Referências </span> </a> </li> </ul> </nav> </li> </ul> </nav> </div> </div> </div> <div class=md-content data-md-component=content> <nav class=md-path aria-label=Navegação> <ol class=md-path__list> <li class=md-path__item> <a href=../../../.. class=md-path__link> <span class=md-ellipsis> Home </span> </a> </li> <li class=md-path__item> <a href=../../ class=md-path__link> <span class=md-ellipsis> Portfólio </span> </a> </li> <li class=md-path__item> <a href=../../ class=md-path__link> <span class=md-ellipsis> Redes Neurais e Deep Learning </span> </a> </li> <li class=md-path__item> <a href=../1/ class=md-path__link> <span class=md-ellipsis> Exercícios </span> </a> </li> </ol> </nav> <article class="md-content__inner md-typeset"> <h1 id=exercicio-4-variational-autoencoder-vae>Exercício 4 - Variational Autoencoder (VAE)</h1> <p>Neste notebook implemento um VAE para gerar e reconstruir imagens de dígitos do MNIST. O objetivo é entender a arquitetura, processo de treinamento e capacidade generativa do modelo.</p> <h2 id=o-que-e-um-vae>O que é um VAE?</h2> <p>Um Variational Autoencoder é um modelo generativo que aprende uma representação latente probabilística dos dados. Diferente de um autoencoder tradicional que mapeia cada entrada para um ponto fixo no espaço latente, o VAE mapeia para uma distribuição de probabilidade (tipicamente Gaussiana).</p> <p><strong>Componentes principais:</strong></p> <ol> <li> <p><strong>Encoder</strong>: mapeia a entrada para parâmetros de distribuição (média μ e log-variância log σ²)</p> </li> <li> <p><strong>Reparameterization Trick</strong>: permite amostragem diferenciável: $<span class=arithmatex>\(z = \mu + \sigma \odot \epsilon, \quad \epsilon \sim \mathcal{N}(0, I)\)</span>$</p> </li> <li> <p><strong>Decoder</strong>: reconstrói a entrada a partir da amostra latente z</p> </li> <li> <p><strong>Loss Function</strong>: combina dois termos:</p> </li> <li>Reconstruction Loss: mede similaridade entre entrada e reconstrução</li> <li>KL Divergence: regulariza o espaço latente para N(0, I)</li> </ol> <div class=arithmatex>\[\mathcal{L} = \text{Reconstrução} + \text{KL Divergence}\]</div> <h2 id=instalacao-de-dependencias>Instalação de Dependências</h2> <p>Implementação do VAE usando NumPy puro, sem frameworks pesados que causam problemas de DLL no Windows.</p> <pre class=python><code># Instalação (descomente se necessário):
+# !pip install numpy matplotlib scikit-learn
+
+print("Usando apenas NumPy, Matplotlib e Scikit-learn")
+print("Sem PyTorch ou TensorFlow - evita problemas de DLL no Windows")</code></pre> <div class="language-text highlight"><pre><span></span><code>Usando apenas NumPy, Matplotlib e Scikit-learn
+Sem PyTorch ou TensorFlow - evita problemas de DLL no Windows
+</code></pre></div> <h3 id=por-que-numpy-puro>Por que NumPy Puro?</h3> <p>PyTorch e TensorFlow apresentam erros de DLL no Windows. A solução foi implementar o VAE completamente em NumPy.</p> <p><strong>Vantagens:</strong> - Funciona em qualquer sistema operacional sem dependências pesadas - Código completamente transparente e compreensível - Mais didático para entender os detalhes de implementação</p> <p><strong>Desvantagens:</strong> - Código mais extenso - Sem aceleração por GPU (mas MNIST é leve o suficiente para CPU)</p> <h2 id=configuracao-do-projeto>Configuração do Projeto</h2> <p><strong>Dataset:</strong> MNIST (70.000 imagens de dígitos 28x28 pixels)</p> <p><strong>Framework:</strong> NumPy puro</p> <p><strong>Arquitetura:</strong> - Encoder: rede fully connected que mapeia imagens 784-D para média e log-variância - Decoder: rede fully connected que mapeia vetores latentes para imagens 784-D - Dimensão latente: 2D (para visualização), depois experimento com 10D e 20D</p> <p><strong>Função de perda:</strong> MSE (reconstrução) + KL Divergence (regularização)</p> <p><strong>Otimizador:</strong> Gradient Descent implementado manualmente</p> <p><strong>Visualizações:</strong> - Comparação entre originais e reconstruções - Espaço latente 2D colorido por classe - Geração de novas amostras - Interpolação no espaço latente - Comparação entre diferentes dimensões latentes</p> <pre class=python><code># Imports
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.datasets import fetch_openml
+from sklearn.model_selection import train_test_split
+from sklearn.manifold import TSNE
+import warnings
+warnings.filterwarnings('ignore')
+
+print("Imports carregados com sucesso")
+print("Implementação VAE em NumPy puro")
+
+# Seed para reprodutibilidade
+np.random.seed(42)</code></pre> <div class="language-text highlight"><pre><span></span><code>Imports carregados com sucesso
+Implementação VAE em NumPy puro
+</code></pre></div> <h2 id=passo-1-preparacao-dos-dados>Passo 1: Preparação dos Dados</h2> <p>Carregamento do MNIST com normalização para [0, 1] e divisão em conjuntos de treino/validação/teste.</p> <pre class=python><code># Carrega MNIST
+print("Baixando MNIST...")
+mnist = fetch_openml('mnist_784', version=1, parser='auto')
+X = mnist.data.astype('float32') / 255.0  # Normaliza para [0, 1]
+y = mnist.target.astype('int')
+
+# Converte para numpy array se necessário
+if not isinstance(X, np.ndarray):
+    X = X.to_numpy()
+if not isinstance(y, np.ndarray):
+    y = y.to_numpy()
+
+# Divisão dos dados
+X_train_full, X_test, y_train_full, y_test = train_test_split(
+    X, y, test_size=10000, random_state=42, stratify=y
+)
+
+X_train, X_val, y_train, y_val = train_test_split(
+    X_train_full, y_train_full, test_size=0.2, random_state=42, stratify=y_train_full
+)
+
+print(f"Treino: {X_train.shape[0]:,} amostras")
+print(f"Validação: {X_val.shape[0]:,} amostras")
+print(f"Teste: {X_test.shape[0]:,} amostras")
+print(f"Dimensão: {X_train.shape[1]} pixels")</code></pre> <div class="language-text highlight"><pre><span></span><code>Baixando MNIST...
+Treino: 48,000 amostras
+Validação: 12,000 amostras
+Teste: 10,000 amostras
+Dimensão: 784 pixels
+</code></pre></div> <pre class=python><code># Visualização de algumas amostras
+fig, axes = plt.subplots(2, 8, figsize=(12, 3))
+for i, ax in enumerate(axes.flat):
+    img = X_train[i].reshape(28, 28)
+    label = y_train[i]
+    ax.imshow(img, cmap='gray')
+    ax.set_title(f'Label: {label}')
+    ax.axis('off')
+plt.suptitle('Amostras do Dataset MNIST')
+plt.tight_layout()
+plt.show()</code></pre> <p><a class=glightbox data-type=image data-width=auto data-height=auto href=index_files/index_8_0.png data-desc-position=bottom><img alt=png src=index_files/index_8_0.png></a></p> <h2 id=passo-2-implementacao-do-vae>Passo 2: Implementação do VAE</h2> <p>A arquitetura consiste em três componentes:</p> <ol> <li><strong>Encoder</strong>: mapeia imagem para parâmetros da distribuição latente (μ e log σ²)</li> <li><strong>Reparameterization Trick</strong>: amostra z de forma diferenciável</li> <li><strong>Decoder</strong>: reconstrói imagem a partir de z</li> </ol> <p>A função de perda combina reconstruction loss (MSE) e KL divergence.</p> <pre class=python><code># Funções de ativação e suas derivadas
+def relu(x):
+    return np.maximum(0, x)
+
+def relu_derivative(x):
+    return (x &gt; 0).astype(float)
+
+def sigmoid(x):
+    return 1 / (1 + np.exp(-np.clip(x, -500, 500)))
+
+def binary_crossentropy(y_true, y_pred):
+    y_pred = np.clip(y_pred, 1e-7, 1 - 1e-7)
+    return -np.mean(y_true * np.log(y_pred) + (1 - y_true) * np.log(1 - y_pred))
+
+
+class VAE_NumPy:
+    """Variational Autoencoder implementado em NumPy puro"""
+
+    def __init__(self, input_dim=784, hidden_dim=400, latent_dim=2):
+        self.input_dim = input_dim
+        self.hidden_dim = hidden_dim
+        self.latent_dim = latent_dim
+
+        # Inicialização Xavier
+        self.W1 = np.random.randn(input_dim, hidden_dim) * np.sqrt(2.0 / input_dim)
+        self.b1 = np.zeros(hidden_dim)
+
+        self.W_mu = np.random.randn(hidden_dim, latent_dim) * np.sqrt(2.0 / hidden_dim)
+        self.b_mu = np.zeros(latent_dim)
+
+        self.W_logvar = np.random.randn(hidden_dim, latent_dim) * np.sqrt(2.0 / hidden_dim)
+        self.b_logvar = np.zeros(latent_dim)
+
+        self.W3 = np.random.randn(latent_dim, hidden_dim) * np.sqrt(2.0 / latent_dim)
+        self.b3 = np.zeros(hidden_dim)
+
+        self.W4 = np.random.randn(hidden_dim, input_dim) * np.sqrt(2.0 / hidden_dim)
+        self.b4 = np.zeros(input_dim)
+
+    def encode(self, x):
+        self.h1 = relu(x @ self.W1 + self.b1)
+        self.mu = self.h1 @ self.W_mu + self.b_mu
+        self.log_var = self.h1 @ self.W_logvar + self.b_logvar
+        return self.mu, self.log_var
+
+    def reparameterize(self, mu, log_var):
+        std = np.exp(0.5 * log_var)
+        epsilon = np.random.randn(*mu.shape)
+        z = mu + std * epsilon
+        self.epsilon = epsilon
+        self.std = std
+        return z
+
+    def decode(self, z):
+        self.h3 = relu(z @ self.W3 + self.b3)
+        self.x_recon = sigmoid(self.h3 @ self.W4 + self.b4)
+        return self.x_recon
+
+    def forward(self, x):
+        mu, log_var = self.encode(x)
+        z = self.reparameterize(mu, log_var)
+        x_recon = self.decode(z)
+        return x_recon, mu, log_var, z
+
+    def compute_loss(self, x, x_recon, mu, log_var):
+        batch_size = x.shape[0]
+        recon_loss = np.sum((x - x_recon) ** 2) / batch_size
+        kl_loss = -0.5 * np.sum(1 + log_var - mu**2 - np.exp(log_var)) / batch_size
+        total_loss = recon_loss + kl_loss
+        return total_loss, recon_loss, kl_loss
+
+    def backward(self, x, x_recon, mu, log_var, z, lr=0.001):
+        """Backpropagation manual"""
+        batch_size = x.shape[0]
+
+        d_recon = 2 * (x_recon - x) / batch_size
+
+        # Decoder gradients
+        d_h3_input = d_recon * x_recon * (1 - x_recon)
+        dW4 = self.h3.T @ d_h3_input
+        db4 = np.sum(d_h3_input, axis=0)
+
+        d_h3 = d_h3_input @ self.W4.T
+        d_h3 = d_h3 * relu_derivative(self.h3)
+        dW3 = z.T @ d_h3
+        db3 = np.sum(d_h3, axis=0)
+
+        d_z = d_h3 @ self.W3.T
+
+        # Reparameterization gradients
+        d_mu_recon = d_z
+        d_log_var_recon = d_z * self.std * 0.5 * self.epsilon
+
+        # KL gradients
+        d_mu_kl = mu / batch_size
+        d_log_var_kl = 0.5 * (np.exp(log_var) - 1) / batch_size
+
+        d_mu = d_mu_recon + d_mu_kl
+        d_log_var = d_log_var_recon + d_log_var_kl
+
+        # Encoder gradients
+        dW_mu = self.h1.T @ d_mu
+        db_mu = np.sum(d_mu, axis=0)
+
+        dW_logvar = self.h1.T @ d_log_var
+        db_logvar = np.sum(d_log_var, axis=0)
+
+        d_h1 = d_mu @ self.W_mu.T + d_log_var @ self.W_logvar.T
+        d_h1 = d_h1 * relu_derivative(self.h1)
+        dW1 = x.T @ d_h1
+        db1 = np.sum(d_h1, axis=0)
+
+        # Atualização de pesos
+        self.W4 -= lr * dW4
+        self.b4 -= lr * db4
+        self.W3 -= lr * dW3
+        self.b3 -= lr * db3
+        self.W_mu -= lr * dW_mu
+        self.b_mu -= lr * db_mu
+        self.W_logvar -= lr * dW_logvar
+        self.b_logvar -= lr * db_logvar
+        self.W1 -= lr * dW1
+        self.b1 -= lr * db1
+
+
+# Criação do modelo
+print("Criando VAE...")
+latent_dim = 2
+vae = VAE_NumPy(input_dim=784, hidden_dim=400, latent_dim=latent_dim)
+
+n_params = (
+    vae.W1.size + vae.b1.size +
+    vae.W_mu.size + vae.b_mu.size +
+    vae.W_logvar.size + vae.b_logvar.size +
+    vae.W3.size + vae.b3.size +
+    vae.W4.size + vae.b4.size
+)
+
+print(f"Modelo criado")
+print(f"Espaço latente: {latent_dim}D")
+print(f"Parâmetros: {n_params:,}")</code></pre> <div class="language-text highlight"><pre><span></span><code>Criando VAE...
+Modelo criado
+Espaço latente: 2D
+Parâmetros: 631,188
+</code></pre></div> <h2 id=passo-3-funcoes-de-treinamento>Passo 3: Funções de Treinamento</h2> <p>Implementação do loop de treinamento e validação.</p> <pre class=python><code>def create_batches(X, batch_size):
+    indices = np.arange(X.shape[0])
+    np.random.shuffle(indices)
+    for start_idx in range(0, X.shape[0], batch_size):
+        batch_indices = indices[start_idx:start_idx + batch_size]
+        yield X[batch_indices]
+
+def train_epoch(vae, X_train, batch_size=128, lr=0.001):
+    total_loss = 0
+    total_recon = 0
+    total_kl = 0
+    n_batches = 0
+
+    for batch in create_batches(X_train, batch_size):
+        x_recon, mu, log_var, z = vae.forward(batch)
+        loss, recon_loss, kl_loss = vae.compute_loss(batch, x_recon, mu, log_var)
+        vae.backward(batch, x_recon, mu, log_var, z, lr=lr)
+
+        total_loss += loss
+        total_recon += recon_loss
+        total_kl += kl_loss
+        n_batches += 1
+
+    return total_loss / n_batches, total_recon / n_batches, total_kl / n_batches
+
+def validate(vae, X_val, batch_size=128):
+    total_loss = 0
+    total_recon = 0
+    total_kl = 0
+    n_batches = 0
+
+    for i in range(0, X_val.shape[0], batch_size):
+        batch = X_val[i:i+batch_size]
+        mu, log_var = vae.encode(batch)
+        z = mu
+        x_recon = vae.decode(z)
+        loss, recon_loss, kl_loss = vae.compute_loss(batch, x_recon, mu, log_var)
+
+        total_loss += loss
+        total_recon += recon_loss
+        total_kl += kl_loss
+        n_batches += 1
+
+    return total_loss / n_batches, total_recon / n_batches, total_kl / n_batches
+
+print("Funções de treinamento definidas")</code></pre> <div class="language-text highlight"><pre><span></span><code>Funções de treinamento definidas
+</code></pre></div> <pre class=python><code># Configuração
+num_epochs = 20
+batch_size = 128
+learning_rate = 0.001
+
+# Histórico
+train_losses = []
+val_losses = []
+train_recons = []
+val_recons = []
+train_kls = []
+val_kls = []
+
+print("Iniciando treinamento...")
+print(f"Épocas: {num_epochs}, Batch: {batch_size}, LR: {learning_rate}\n")
+
+for epoch in range(1, num_epochs + 1):
+    train_loss, train_recon, train_kl = train_epoch(vae, X_train, batch_size, learning_rate)
+    val_loss, val_recon, val_kl = validate(vae, X_val, batch_size)
+
+    train_losses.append(train_loss)
+    val_losses.append(val_loss)
+    train_recons.append(train_recon)
+    val_recons.append(val_recon)
+    train_kls.append(train_kl)
+    val_kls.append(val_kl)
+
+    if epoch % 5 == 0 or epoch == 1:
+        print(f"Época {epoch:2d}/{num_epochs} | "
+              f"Train: {train_loss:.4f} (Recon: {train_recon:.4f}, KL: {train_kl:.4f}) | "
+              f"Val: {val_loss:.4f} (Recon: {val_recon:.4f}, KL: {val_kl:.4f})")
+
+print("\nTreinamento concluído")</code></pre> <div class="language-text highlight"><pre><span></span><code>Iniciando treinamento...
+Épocas: 20, Batch: 128, LR: 0.001
+
+Época  1/20 | Train: 76.3850 (Recon: 72.1779, KL: 4.2071) | Val: 54.8919 (Recon: 50.7780, KL: 4.1139)
+Época  5/20 | Train: 50.4901 (Recon: 46.8261, KL: 3.6641) | Val: 49.3246 (Recon: 45.7047, KL: 3.6199)
+Época 10/20 | Train: 48.8446 (Recon: 45.3085, KL: 3.5361) | Val: 47.9248 (Recon: 44.3938, KL: 3.5310)
+Época 15/20 | Train: 48.0203 (Recon: 44.4706, KL: 3.5497) | Val: 47.1099 (Recon: 43.6111, KL: 3.4988)
+Época 20/20 | Train: 47.4496 (Recon: 43.8886, KL: 3.5611) | Val: 46.7090 (Recon: 43.0814, KL: 3.6276)
+
+Treinamento concluído
+</code></pre></div> <pre class=python><code>print(f"Loss final treino: {train_losses[-1]:.4f}")
+print(f"Loss final validação: {val_losses[-1]:.4f}")</code></pre> <div class="language-text highlight"><pre><span></span><code>Loss final treino: 47.4496
+Loss final validação: 46.7090
+</code></pre></div> <pre class=python><code># Visualização das curvas de perda
+fig, axes = plt.subplots(1, 3, figsize=(15, 4))
+
+# Perda total
+axes[0].plot(range(1, num_epochs + 1), train_losses, label='Treino', marker='o')
+axes[0].plot(range(1, num_epochs + 1), val_losses, label='Validação', marker='s')
+axes[0].set_xlabel('Época')
+axes[0].set_ylabel('Perda Total')
+axes[0].set_title('Perda Total por Época')
+axes[0].legend()
+axes[0].grid(True)
+
+# Reconstruction loss
+axes[1].plot(range(1, num_epochs + 1), train_recons, label='Treino', marker='o')
+axes[1].plot(range(1, num_epochs + 1), val_recons, label='Validação', marker='s')
+axes[1].set_xlabel('Época')
+axes[1].set_ylabel('Reconstruction Loss')
+axes[1].set_title('Reconstruction Loss por Época')
+axes[1].legend()
+axes[1].grid(True)
+
+# KL Divergence
+axes[2].plot(range(1, num_epochs + 1), train_kls, label='Treino', marker='o')
+axes[2].plot(range(1, num_epochs + 1), val_kls, label='Validação', marker='s')
+axes[2].set_xlabel('Época')
+axes[2].set_ylabel('KL Divergence')
+axes[2].set_title('KL Divergence por Época')
+axes[2].legend()
+axes[2].grid(True)
+
+plt.tight_layout()
+plt.show()</code></pre> <p><a class=glightbox data-type=image data-width=auto data-height=auto href=index_files/index_15_0.png data-desc-position=bottom><img alt=png src=index_files/index_15_0.png></a></p> <h3 id=analise-das-curvas>Análise das Curvas</h3> <p><strong>Perda Total</strong>: diminui em treino e validação, indicando aprendizado sem overfitting significativo.</p> <p><strong>Reconstruction Loss</strong>: mede qualidade da reconstrução. Diminuição indica melhoria.</p> <p><strong>KL Divergence</strong>: regulariza o espaço latente. Valores estáveis indicam bom equilíbrio entre reconstrução e regularização.</p> <h2 id=passo-4-avaliacao-reconstrucoes>Passo 4: Avaliação - Reconstruções</h2> <p>Comparação entre imagens originais e reconstruídas.</p> <pre class=python><code># Pega algumas imagens de validação
+n_samples = 10
+sample_data = X_val[:n_samples]
+
+# Reconstrói
+mu, log_var = vae.encode(sample_data)
+reconstructions = vae.decode(mu)  # usa média
+
+# Visualiza
+fig, axes = plt.subplots(2, n_samples, figsize=(15, 3))
+
+for i in range(n_samples):
+    # Original
+    axes[0, i].imshow(sample_data[i].reshape(28, 28), cmap='gray')
+    axes[0, i].axis('off')
+    if i == 0:
+        axes[0, i].set_ylabel('Original', rotation=0, labelpad=40, fontsize=10)
+
+    # Reconstrução
+    axes[1, i].imshow(reconstructions[i].reshape(28, 28), cmap='gray')
+    axes[1, i].axis('off')
+    if i == 0:
+        axes[1, i].set_ylabel('Reconstrução', rotation=0, labelpad=40, fontsize=10)
+
+plt.suptitle('Comparação: Imagens Originais vs Reconstruídas', fontsize=12)
+plt.tight_layout()
+plt.show()</code></pre> <p><a class=glightbox data-type=image data-width=auto data-height=auto href=index_files/index_18_0.png data-desc-position=bottom><img alt=png src=index_files/index_18_0.png></a></p> <h2 id=passo-5-visualizacao-do-espaco-latente>Passo 5: Visualização do Espaço Latente</h2> <p>Plotagem do espaço latente 2D com coloração por classe para visualizar a organização aprendida.</p> <pre class=python><code># Codifica o conjunto de validação
+mu, log_var = vae.encode(X_val)
+latent_vectors = mu
+labels_array = y_val
+
+# Visualização 2D
+plt.figure(figsize=(10, 8))
+scatter = plt.scatter(latent_vectors[:, 0], latent_vectors[:, 1], 
+                     c=labels_array, cmap='tab10', alpha=0.5, s=5)
+plt.colorbar(scatter, label='Dígito')
+plt.xlabel('Dimensão Latente 1')
+plt.ylabel('Dimensão Latente 2')
+plt.title('Espaço Latente 2D do VAE (colorido por classe)')
+plt.grid(True, alpha=0.3)
+plt.tight_layout()
+plt.show()
+
+print(f"📊 Forma do espaço latente: {latent_vectors.shape}")</code></pre> <p><a class=glightbox data-type=image data-width=auto data-height=auto href=index_files/index_20_0.png data-desc-position=bottom><img alt=png src=index_files/index_20_0.png></a></p> <div class="language-text highlight"><pre><span></span><code>📊 Forma do espaço latente: (12000, 2)
+</code></pre></div> <h3 id=analise-do-espaco-latente>Análise do Espaço Latente</h3> <p><strong>Agrupamento</strong>: dígitos similares agrupam-se próximos, demonstrando representação significativa.</p> <p><strong>Continuidade</strong>: espaço suave sem descontinuidades, resultado da regularização KL.</p> <p><strong>Sobreposição</strong>: classes visualmente similares (4-9, 3-5) apresentam sobreposição esperada.</p> <p><strong>Organização</strong>: separação razoável de 10 classes em apenas 2 dimensões.</p> <h2 id=passo-6-geracao-de-amostras>Passo 6: Geração de Amostras</h2> <p>Amostragem aleatória do espaço latente N(0,1) para geração de novos dígitos.</p> <pre class=python><code># Gera amostras aleatórias
+n_samples = 20
+z_random = np.random.normal(size=(n_samples, latent_dim)).astype('float32')
+samples = vae.decode(z_random)
+
+# Visualiza
+fig, axes = plt.subplots(2, 10, figsize=(15, 3))
+for i, ax in enumerate(axes.flat):
+    ax.imshow(samples[i].reshape(28, 28), cmap='gray')
+    ax.axis('off')
+
+plt.suptitle('Amostras Geradas pelo VAE (amostragem aleatória do espaço latente)', fontsize=12)
+plt.tight_layout()
+plt.show()</code></pre> <p><a class=glightbox data-type=image data-width=auto data-height=auto href=index_files/index_23_0.png data-desc-position=bottom><img alt=png src=index_files/index_23_0.png></a></p> <h3 id=exploracao-sistematica-do-espaco-latente>Exploração Sistemática do Espaço Latente</h3> <p>Grade 15x15 de pontos no intervalo [-3, 3] mostrando transições suaves entre dígitos.</p> <pre class=python><code># Grade no espaço latente
+n = 15
+digit_size = 28
+grid_x = np.linspace(-3, 3, n)
+grid_y = np.linspace(-3, 3, n)[::-1]
+figure = np.zeros((digit_size * n, digit_size * n))
+
+for i, yi in enumerate(grid_y):
+    for j, xi in enumerate(grid_x):
+        z_sample = np.array([[xi, yi]], dtype='float32')
+        x_decoded = vae.decode(z_sample)
+        digit = x_decoded.reshape(digit_size, digit_size)
+        figure[i * digit_size: (i + 1) * digit_size,
+               j * digit_size: (j + 1) * digit_size] = digit
+
+# Visualiza
+plt.figure(figsize=(12, 12))
+plt.imshow(figure, cmap='gray')
+plt.title('Grade de Dígitos Gerados no Espaço Latente 2D\n(de -3 a +3 em cada dimensão)', fontsize=14)
+plt.xlabel('Dimensão Latente 1 →', fontsize=12)
+plt.ylabel('← Dimensão Latente 2', fontsize=12)
+plt.xticks([])
+plt.yticks([])
+plt.tight_layout()
+plt.show()</code></pre> <p><a class=glightbox data-type=image data-width=auto data-height=auto href=index_files/index_25_0.png data-desc-position=bottom><img alt=png src=index_files/index_25_0.png></a></p> <h3 id=interpolacao-linear>Interpolação Linear</h3> <p>Interpolação entre dois pontos no espaço latente demonstrando transição suave entre dígitos.</p> <pre class=python><code># Interpolação entre duas imagens
+idx1, idx2 = 0, 50
+img1 = X_test[idx1:idx1+1]
+img2 = X_test[idx2:idx2+1]
+label1 = y_test[idx1]
+label2 = y_test[idx2]
+
+# Codifica
+mu1, _ = vae.encode(img1)
+mu2, _ = vae.encode(img2)
+
+# Interpola
+n_steps = 12
+interpolations = []
+
+for alpha in np.linspace(0, 1, n_steps):
+    z_interp = (1 - alpha) * mu1 + alpha * mu2
+    img_interp = vae.decode(z_interp)
+    interpolations.append(img_interp.reshape(28, 28))
+
+# Visualiza
+fig, axes = plt.subplots(1, n_steps, figsize=(15, 2))
+for i, ax in enumerate(axes):
+    ax.imshow(interpolations[i], cmap='gray')
+    ax.axis('off')
+    if i == 0:
+        ax.set_title(f'{label1}', fontsize=10, color='blue')
+    elif i == n_steps - 1:
+        ax.set_title(f'{label2}', fontsize=10, color='red')
+
+plt.suptitle(f'Interpolação Linear no Espaço Latente: {label1} → {label2}', fontsize=12)
+plt.tight_layout()
+plt.show()</code></pre> <p><a class=glightbox data-type=image data-width=auto data-height=auto href=index_files/index_27_0.png data-desc-position=bottom><img alt=png src=index_files/index_27_0.png></a></p> <h2 id=passo-7-comparacao-de-dimensoes-latentes>Passo 7: Comparação de Dimensões Latentes</h2> <p>Experimento com dimensões 2D, 10D e 20D para avaliar trade-off entre visualização e qualidade.</p> <pre class=python><code># Treinamento de modelos com diferentes dimensões latentes
+print("Treinando VAEs com diferentes dimensões latentes...")
+print("Nota: implementação NumPy sem GPU\n")
+
+latent_dims = [2, 10, 20]
+models_dict = {2: vae}
+histories_dict = {2: val_losses}
+
+for ld in [10, 20]:
+    print(f"Treinando VAE latent_dim={ld} (10 épocas)")
+    model_temp = VAE_NumPy(input_dim=784, hidden_dim=400, latent_dim=ld)
+
+    temp_val_losses = []
+    for epoch in range(1, 11):
+        _ = train_epoch(model_temp, X_train, 128, 0.001)
+        val_loss, _, _ = validate(model_temp, X_val, 128)
+        temp_val_losses.append(val_loss)
+
+    models_dict[ld] = model_temp
+    histories_dict[ld] = temp_val_losses
+    print(f"Loss final: {temp_val_losses[-1]:.4f}\n")
+
+print("Treinamento concluído")</code></pre> <div class="language-text highlight"><pre><span></span><code>Treinando VAEs com diferentes dimensões latentes...
+Nota: implementação NumPy sem GPU
+
+Treinando VAE latent_dim=10 (10 épocas)
+Loss final: 37.9164
+
+Treinando VAE latent_dim=20 (10 épocas)
+Loss final: 37.8154
+
+Treinamento concluído
+</code></pre></div> <pre class=python><code># Compara perdas
+plt.figure(figsize=(10, 5))
+for ld in latent_dims:
+    epochs_range = range(1, len(histories_dict[ld]) + 1)
+    plt.plot(epochs_range, histories_dict[ld], label=f'Latent Dim = {ld}', marker='o')
+
+plt.xlabel('Época')
+plt.ylabel('Perda de Validação')
+plt.title('Comparação de Perdas para Diferentes Dimensões Latentes')
+plt.legend()
+plt.grid(True)
+plt.tight_layout()
+plt.show()
+
+# Compara reconstruções
+fig, axes = plt.subplots(len(latent_dims) + 1, 10, figsize=(15, 2 * (len(latent_dims) + 1)))
+test_data = X_test[:10]
+
+# Linha 0: originais
+for j in range(10):
+    axes[0, j].imshow(test_data[j].reshape(28, 28), cmap='gray')
+    axes[0, j].axis('off')
+    if j == 0:
+        axes[0, j].set_ylabel('Original', rotation=0, labelpad=40, fontsize=10)
+
+# Linhas seguintes: reconstruções
+for i, ld in enumerate(latent_dims):
+    model_temp = models_dict[ld]
+    mu, _ = model_temp.encode(test_data)
+    recon = model_temp.decode(mu)
+
+    for j in range(10):
+        axes[i + 1, j].imshow(recon[j].reshape(28, 28), cmap='gray')
+        axes[i + 1, j].axis('off')
+        if j == 0:
+            axes[i + 1, j].set_ylabel(f'Latent {ld}D', rotation=0, labelpad=40, fontsize=10)
+
+plt.suptitle('Comparação de Reconstruções para Diferentes Dimensões Latentes', fontsize=12)
+plt.tight_layout()
+plt.show()</code></pre> <p><a class=glightbox data-type=image data-width=auto data-height=auto href=index_files/index_30_0.png data-desc-position=bottom><img alt=png src=index_files/index_30_0.png></a></p> <p><a class=glightbox data-type=image data-width=auto data-height=auto href=index_files/index_30_1.png data-desc-position=bottom><img alt=png src=index_files/index_30_1.png></a></p> <h3 id=analise-comparativa>Análise Comparativa</h3> <p><strong>2D:</strong> - Visualização direta possível - Reconstruções com mais perda de detalhes - Loss de validação: maior</p> <p><strong>10D:</strong> - Equilíbrio entre capacidade e interpretabilidade - Reconstruções significativamente melhores - Loss intermediária</p> <p><strong>20D:</strong> - Melhor qualidade de reconstrução - Loss de validação: menor - Visualização requer redução dimensional (t-SNE/UMAP)</p> <p><strong>Conclusão</strong>: dimensão latente deve ser escolhida conforme objetivo (visualização vs qualidade).</p> <h2 id=relatorio-final>Relatório Final</h2> <h3 id=resumo>Resumo</h3> <p>Implementação completa de VAE em NumPy puro aplicado ao MNIST. Componentes implementados:</p> <ol> <li>Arquitetura: encoder probabilístico, reparameterization trick, decoder</li> <li>Loss: MSE (reconstrução) + KL divergence (regularização)</li> <li>Backpropagation manual para todos os pesos</li> <li>Treinamento: 20 épocas com monitoring</li> <li>Avaliações: reconstruções, espaço latente, geração, interpolação</li> <li>Experimentos: comparação de dimensões 2D, 10D e 20D</li> </ol> <h3 id=resultados>Resultados</h3> <p><strong>Reconstrução:</strong> - VAE reconstrói dígitos com qualidade razoável - Imagens ligeiramente borradas (característica de VAEs) - Dimensões maiores produzem melhores reconstruções (loss ~47 em 2D vs ~38 em 20D)</p> <p><strong>Espaço Latente:</strong> - Organização clara em 2D - Espaço contínuo sem descontinuidades - Dígitos similares agrupam-se proximamente</p> <p><strong>Geração:</strong> - Amostragem aleatória produz dígitos reconhecíveis - Grade mostra transições suaves - Interpolação gera morfismos realistas</p> <p><strong>Dimensionalidade:</strong> - Trade-off: visualização (2D) vs qualidade (20D)</p> <h3 id=desafios>Desafios</h3> <ol> <li><strong>Backpropagation Manual</strong>: implementação de gradientes complexa mas educativa</li> <li><strong>Balanceamento de Loss</strong>: equilíbrio entre reconstrução e KL</li> <li><strong>Problemas de DLL</strong>: solução através de implementação NumPy pura</li> </ol> <h3 id=insights>Insights</h3> <p><strong>VAE vs Autoencoder:</strong> - VAE aprende distribuição, não pontos fixos - Permite geração, não apenas reconstrução - KL divergence garante continuidade</p> <p><strong>Reparameterization Trick:</strong> - Essencial para backpropagation através de sampling - Separa ruído de parâmetros aprendíveis</p> <p><strong>Aplicações:</strong> - Compressão de dados - Detecção de anomalias - Data augmentation - Aprendizado de representações</p> <h3 id=melhorias-possiveis>Melhorias Possíveis</h3> <ol> <li>Arquitetura convolucional para melhor captura espacial</li> <li>β-VAE para controle de disentanglement</li> <li>Conditional VAE para geração controlada</li> <li>KL annealing durante treinamento</li> <li>Priors mais complexos</li> </ol> <h3 id=conclusao>Conclusão</h3> <p>VAE combina deep learning com inferência bayesiana, oferecendo: - Espaço latente interpretável e estruturado - Capacidade generativa com controle - Treinamento estável</p> <p>A implementação em NumPy puro, embora mais trabalhosa, proporciona compreensão profunda dos mecanismos internos do modelo.</p> <h3 id=referencias>Referências</h3> <ul> <li><strong>Kingma, D. P., &amp; Welling, M. (2013).</strong> Auto-Encoding Variational Bayes. arXiv preprint arXiv:1312.6114.</li> <li><strong>Doersch, C. (2016).</strong> Tutorial on Variational Autoencoders. arXiv preprint arXiv:1606.05908.</li> <li><strong>Material do Curso</strong>: <a href=https://insper.github.io/ann-dl/versions/2025.2/exercises/vae/ >Insper ANN-DL - VAE Exercise</a></li> <li><strong>NumPy Documentation</strong>: <a href=https://numpy.org/doc/ >https://numpy.org/doc/</a></li> <li><strong>Dataset MNIST</strong>: LeCun, Y., Cortes, C., &amp; Burges, C. J. (1998).</li> </ul> <hr> <p>Este notebook foi desenvolvido com assistência de IA (Claude Code) para estruturação de código e organização.</p> <p><strong>Autor:</strong> Pedro Civita<br> <strong>Data:</strong> Outubro 2025<br> <strong>Curso:</strong> Redes Neurais e Deep Learning - Insper</p> <aside class=md-source-file> <span class=md-source-file__fact> <span class=md-icon title="Última atualização"> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"></path></svg> </span> <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-datetime" title="15 de dezembro de 2025 08:06:54 UTC">15 de dezembro de 2025 08:06:54</span> </span> <span class=md-source-file__fact> <span class=md-icon title=Criada> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M14.47 15.08 11 13V7h1.5v5.25l3.08 1.83c-.41.28-.79.62-1.11 1m-1.39 4.84c-.36.05-.71.08-1.08.08-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8c0 .37-.03.72-.08 1.08.69.1 1.33.32 1.92.64.1-.56.16-1.13.16-1.72 0-5.5-4.5-10-10-10S2 6.5 2 12s4.47 10 10 10c.59 0 1.16-.06 1.72-.16-.32-.59-.54-1.23-.64-1.92M18 15v3h-3v2h3v3h2v-3h3v-2h-3v-3z"></path></svg> </span> <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-datetime" title="15 de dezembro de 2025 08:06:54 UTC">15 de dezembro de 2025 08:06:54</span> </span> <span class=md-source-file__fact> <span class=md-icon title=Colaboradores> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M12 4a4 4 0 0 1 4 4 4 4 0 0 1-4 4 4 4 0 0 1-4-4 4 4 0 0 1 4-4m0 10c4.42 0 8 1.79 8 4v2H4v-2c0-2.21 3.58-4 8-4"></path></svg> </span> <nav> <a href=mailto:67804009+pedrocivita@users.noreply.github.com>Pedro Civita</a> </nav> </span> <span class=md-source-file__fact> <span class=md-icon title=Colaboradores> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33s1.71.11 2.5.33c1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2"></path></svg> </span> <span>GitHub</span> <nav> <a href=https://github.com/apps/copilot-swe-agent class=md-author title=@Copilot> <img src="https://avatars.githubusercontent.com/in/1143301?v=4&size=72" alt=Copilot> </a> </nav> </span> </aside> </article> </div> <script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script> </div> <button type=button class="md-top md-icon" data-md-component=top hidden> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"></path></svg> Voltar ao topo </button> </main> <footer class=md-footer> <div class="md-footer-meta md-typeset"> <div class="md-footer-meta__inner md-grid"> <div class=md-copyright> Made with <a href=https://squidfunk.github.io/mkdocs-material/ target=_blank rel=noopener> Material for MkDocs </a> </div> <div class=md-social> <a href=https://github.com/pedrocivita target=_blank rel=noopener title=GitHub class=md-social__link> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 512 512"><!-- Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"></path></svg> </a> <a href=mailto:pedrotpc@al.insper.edu.br target=_blank rel=noopener title=E-mail class=md-social__link> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 512 512"><!-- Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M48 64C21.5 64 0 85.5 0 112c0 15.1 7.1 29.3 19.2 38.4l208 156a48 48 0 0 0 57.6 0l208-156c12.1-9.1 19.2-23.3 19.2-38.4 0-26.5-21.5-48-48-48zM0 196v188c0 35.3 28.7 64 64 64h384c35.3 0 64-28.7 64-64V196L313.6 344.8c-34.1 25.6-81.1 25.6-115.2 0z"></path></svg> </a> </div> </div> </div> </footer> </div> <div class=md-dialog data-md-component=dialog> <div class="md-dialog__inner md-typeset"></div> </div> <div class=md-progress data-md-component=progress role=progressbar></div> <script id=__config type=application/json>{"annotate": null, "base": "../../../..", "features": ["content.code.copy", "content.code.select", "content.code.annotate", "content.tooltips", "navigation.instant", "navigation.instant.progress", "navigation.top", "navigation.path", "navigation.tracking", "navigation.expand", "search.suggest", "search.highlight"], "search": "../../../../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado para \u00e1rea de transfer\u00eancia", "clipboard.copy": "Copiar para \u00e1rea de transfer\u00eancia", "search.result.more.one": "Mais 1 nesta p\u00e1gina", "search.result.more.other": "Mais # nesta p\u00e1gina", "search.result.none": "Nenhum resultado encontrado", "search.result.one": "1 resultado encontrado", "search.result.other": "# resultados encontrados", "search.result.placeholder": "Digite para iniciar a busca", "search.result.term.missing": "Ausente", "select.version": "Selecione a vers\u00e3o"}, "version": null}</script> <script src=../../../../assets/javascripts/bundle.e71a0d61.min.js></script> <script src=../../../../assets/_markdown_exec_pyodide.js></script> <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script> <script src=https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js></script> <script src=https://fastly.jsdelivr.net/npm/jquery/dist/jquery.min.js></script> <script src=https://fastly.jsdelivr.net/npm/echarts/dist/echarts.min.js></script> <script src=https://unpkg.com/mermaid@10/dist/mermaid.min.js></script> <script src=../../../../js/mermaid-init.js></script> <script src=../../../../assets/javascripts/badge.js async></script> <script src=../../../../termynal.js></script> <script id=init-glightbox>const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(()=>{ lightbox.reload(); });
+</script></body></html>
